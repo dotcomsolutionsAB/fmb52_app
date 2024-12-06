@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "FMB-52",
-    "slug": "FMB-52",
+    "name": "FMB 52",
+    "slug": "FMB 52",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -9,7 +9,8 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dotcom.fmb52"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,7 +31,7 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#efe4ca"
         }
       ]
     ],
