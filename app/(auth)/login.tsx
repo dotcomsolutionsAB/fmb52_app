@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import RoundedButton from "@/components/buttons/RoundedButton";
-import RoundedButtonInverted from "@/components/buttons/RoundedButtonInverted";
 import ThemedBackground from "@/components/ThemedBackground";
 import TextInputLight from "@/components/textinputs/TextInputLight";
 import { Colors } from "@/constants/Colors";
@@ -39,10 +38,16 @@ export default function () {
           <View style={{ gap: 10 }}>
             <RoundedButton
               title="Login with OTP"
-              onPress={() => router.navigate("/(auth)/login-otp")}
+              onPress={() =>
+                router.navigate({
+                  pathname: `/login-otp`,
+                  params: { username },
+                })
+              }
             />
             <SepartorOR />
-            <RoundedButtonInverted
+            <RoundedButton
+              inverted={true}
               title="Login with Password"
               onPress={() =>
                 router.navigate({

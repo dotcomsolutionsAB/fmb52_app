@@ -16,13 +16,17 @@ const TextInputLight = (params: TextInputLightProps) => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>{params.title}</Text>
-      <TextInput
-        style={[styles.textInput, params.style]}
-        {...params}
-        placeholderTextColor={
-          params.placeholderTextColor || Colors.light.accent
-        }
-      />
+      <View style={styles.textbox}>
+        <TextInput
+          style={[styles.textInput, params.style]}
+          {...params}
+          children={null}
+          placeholderTextColor={
+            params.placeholderTextColor || Colors.light.accent
+          }
+        />
+        {params.children}
+      </View>
     </View>
   );
 };
@@ -42,13 +46,21 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontSize: 14,
   },
-  textInput: {
-    paddingHorizontal: 10,
-    paddingVertical: 15,
-    fontSize: 15,
+  textbox: {
+    flexDirection: "row",
     backgroundColor: Colors.light.white,
     borderWidth: 1,
     borderColor: Colors.light.accent,
     borderRadius: 7,
+    alignItems: "center",
+    gap: 10,
+    paddingHorizontal: 5,
+  },
+  textInput: {
+    flex: 1,
+    paddingHorizontal: 5,
+    paddingVertical: 15,
+    fontSize: 15,
+    alignSelf: "stretch",
   },
 });
