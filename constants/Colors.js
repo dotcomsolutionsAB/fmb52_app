@@ -1,4 +1,4 @@
-export const Color = {
+export const Colors = {
   light: {
     primary: "#efe4ca", //light:active
     accent: "#cca753", //normal brown
@@ -7,5 +7,6 @@ export const Color = {
     alert: "#FD5F5F", //alert message
     success: "#27B124", //success message
     grey: "#807F7C", //grey
+    white: "#ffffff", //white
   },
 };
