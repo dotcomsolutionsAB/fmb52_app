@@ -20,7 +20,7 @@ export default function Index() {
         </View>
         <RoundedButton
           title="Let's Continue"
-          onPress={() => router.replace("/(auth)/login")}
+          onPress={() => router.replace("/(drawer)/dashboard")}
         />
       </View>
     </ThemedBackground>
