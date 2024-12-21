@@ -8,5 +8,6 @@ export const Colors = {
     success: "#27B124", //success message
     grey: "#807F7C", //grey
     white: "#ffffff", //white
+    black: "#000000", //black
   },
 };

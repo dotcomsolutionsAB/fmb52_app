@@ -8,18 +8,30 @@ import {
 import React from "react";
 import { Colors } from "@/constants/Colors";
 
-const InlineButton = (params: ButtonProps) => {
+interface InlineButtonProps extends ButtonProps {
+  inverted?: boolean;
+}
+
+const InlineButton = (params: InlineButtonProps) => {
   return (
     <TouchableOpacity
       disabled={params.disabled}
       style={[
         styles.container,
+        params.inverted ? { backgroundColor: Colors.light.hover } : null,
         params.disabled ? { backgroundColor: Colors.light.primary } : null,
       ]}
       onPress={params.onPress}
       activeOpacity={0.6}
     >
-      <Text style={styles.text}>{params.title}</Text>
+      <Text
+        style={[
+          styles.text,
+          params.inverted ? { color: Colors.light.accent } : null,
+        ]}
+      >
+        {params.title}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -36,5 +48,6 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: "500",
     color: Colors.light.white,
+    textAlign: "center",
   },
 });
