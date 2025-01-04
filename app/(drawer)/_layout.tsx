@@ -1,4 +1,6 @@
+import client from "@/connection/client";
 import { Colors } from "@/constants/Colors";
+import { signout } from "@/store/reducer/user";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   DrawerContentComponentProps,
@@ -6,10 +8,12 @@ import {
   DrawerItem,
   DrawerItemList,
 } from "@react-navigation/drawer";
+import { router } from "expo-router";
 import { Drawer } from "expo-router/drawer";
 import { Children } from "react";
-import { StyleSheet, Image, View, Text } from "react-native";
+import { StyleSheet, Image, View, Text, Alert } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function () {
   //   useEffect(() => {
@@ -189,6 +193,18 @@ export default function () {
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
   const { state, descriptors, navigation } = props;
+  const user = useSelector((state: any) => state.user);
+  const dispatch = useDispatch();
+
+  const signOutUser = async () => {
+    try {
+      await client.post("/logout");
+      dispatch(signout());
+      router.replace("/(auth)/login");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   // Manually render the Drawer items
   const renderDrawerItem = (route: any, index: number) => {
@@ -222,8 +238,6 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
     );
   };
 
-  console.log();
-
   return (
     <DrawerContentScrollView {...props} showsVerticalScrollIndicator={false}>
       <View
@@ -248,51 +262,21 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         .slice(0, 6)
         .map((route, index) => renderDrawerItem(route, index))}
 
-      {/* Separator text */}
-      <View
-        style={{
-          marginTop: 15,
-          marginVertical: 7,
-          flexDirection: "row",
-          alignItems: "stretch",
-          gap: 5,
-        }}
-      >
-        <View
-          style={{
-            flex: 1,
-            height: 1,
-            alignSelf: "center",
-            backgroundColor: Colors.light.primary,
-          }}
-        />
-        <Text
-          style={{
-            textAlign: "center",
-            fontSize: 16,
-            fontWeight: "bold",
-            color: Colors.light.white,
-          }}
-        >
-          AdminAccess
-        </Text>
-        <View
-          style={{
-            flex: 1,
-            height: 1,
-            alignSelf: "center",
-            backgroundColor: Colors.light.primary,
-          }}
-        />
-      </View>
+      {user.role === "jamiat_admin" && <SeparatorAdmin />}
 
       {/* Render the remaining items */}
-      {state.routes
-        .slice(6)
-        .map((route, index) => renderDrawerItem(route, index + 6))}
+      {user.role === "jamiat_admin" &&
+        state.routes
+          .slice(6)
+          .map((route, index) => renderDrawerItem(route, index + 6))}
 
       <DrawerItem
-        onPress={() => {}}
+        onPress={() =>
+          Alert.alert("Logout", "Are you sure you want to logout?", [
+            { text: "Yes", onPress: signOutUser },
+            { text: "No" },
+          ])
+        }
         label="Logout"
         icon={(props) => <MaterialCommunityIcons name="logout" {...props} />}
         inactiveTintColor={Colors.light.white}
@@ -309,6 +293,47 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
     </DrawerContentScrollView>
   );
 }
+
+const SeparatorAdmin = () => {
+  return (
+    <View
+      style={{
+        marginTop: 15,
+        marginVertical: 7,
+        flexDirection: "row",
+        alignItems: "stretch",
+        gap: 5,
+      }}
+    >
+      <View
+        style={{
+          flex: 1,
+          height: 1,
+          alignSelf: "center",
+          backgroundColor: Colors.light.primary,
+        }}
+      />
+      <Text
+        style={{
+          textAlign: "center",
+          fontSize: 16,
+          fontWeight: "bold",
+          color: Colors.light.white,
+        }}
+      >
+        Admin Access
+      </Text>
+      <View
+        style={{
+          flex: 1,
+          height: 1,
+          alignSelf: "center",
+          backgroundColor: Colors.light.primary,
+        }}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   drawerContainer: {

@@ -24,6 +24,7 @@ const TextInputLight = (params: TextInputLightProps) => {
           placeholderTextColor={
             params.placeholderTextColor || Colors.light.accent
           }
+          autoCapitalize="none"
         />
         {params.children}
       </View>

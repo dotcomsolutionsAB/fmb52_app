@@ -5,9 +5,22 @@ import ThemedBackground from "@/components/ThemedBackground";
 import TextInputLight from "@/components/textinputs/TextInputLight";
 import { Colors } from "@/constants/Colors";
 import { router } from "expo-router";
+import LineError from "@/components/text/LineError";
 
 export default function () {
   const [username, setUsername] = useState("");
+  const [error, setError] = useState("");
+
+  const routeToLogin = (route: string = "") => {
+    if (username.length === 0) {
+      setError("Username cannot be empty");
+      return;
+    }
+    router.navigate({
+      pathname: route,
+      params: { username },
+    });
+  };
 
   return (
     <ThemedBackground>
@@ -32,29 +45,20 @@ export default function () {
               placeholder="Enter Username"
               value={username}
               onChangeText={(txt) => setUsername(txt)}
+              onChange={() => error && setError("")}
             />
-            {/* <TextInputLight title="Password" placeholder="Enter Username" /> */}
+            {error ? <LineError message={error} /> : null}
           </View>
           <View style={{ gap: 10 }}>
             <RoundedButton
               title="Login with OTP"
-              onPress={() =>
-                router.navigate({
-                  pathname: `/login-otp`,
-                  params: { username },
-                })
-              }
+              onPress={() => routeToLogin("/login-otp")}
             />
             <SepartorOR />
             <RoundedButton
               inverted={true}
               title="Login with Password"
-              onPress={() =>
-                router.navigate({
-                  pathname: `/login-password`,
-                  params: { username },
-                })
-              }
+              onPress={() => routeToLogin("/login-password")}
             />
           </View>
           <RegisterNow />

@@ -2,10 +2,19 @@ import { Text, View, Image, StyleSheet } from "react-native";
 import ThemedBackground from "@/components/ThemedBackground";
 import RoundedButton from "@/components/buttons/RoundedButton";
 import { Colors } from "@/constants/Colors";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 const logo = require("@/assets/images/icon.png");
 
 export default function Index() {
+  const user = useSelector((state: any) => state.user);
+  useFocusEffect(() => {
+    if (user) {
+      router.replace("/(drawer)/dashboard");
+    }
+  });
+
   return (
     <ThemedBackground>
       <View style={{ flex: 1, justifyContent: "space-evenly" }}>
@@ -20,7 +29,7 @@ export default function Index() {
         </View>
         <RoundedButton
           title="Let's Continue"
-          onPress={() => router.replace("/(drawer)/dashboard")}
+          onPress={() => router.replace("/(auth)/login")}
         />
       </View>
     </ThemedBackground>

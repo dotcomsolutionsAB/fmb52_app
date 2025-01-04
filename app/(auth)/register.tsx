@@ -14,6 +14,7 @@ import TextInputLight from "@/components/textinputs/TextInputLight";
 import RoundedButton from "@/components/buttons/RoundedButton";
 import InlineButton from "@/components/buttons/InlineButton";
 import OTP from "@/components/textinputs/OTP";
+import LineError from "@/components/text/LineError";
 
 const verificationStages = {
   NOT_STARTED: 0,
@@ -23,6 +24,8 @@ const verificationStages = {
 };
 
 const OTP_LENGTH = 6;
+
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export default function () {
   const [verificationStage, setVerificationStage] = useState(
@@ -34,6 +37,7 @@ export default function () {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
+  const [error, setError] = useState("");
 
   async function handleVerification() {
     if (verificationStage === verificationStages["NOT_STARTED"])
@@ -47,6 +51,8 @@ export default function () {
   async function registerUser() {
     setVerificationStage(verificationStages["REGISTERED"]);
   }
+
+  const isValidEmail = (email: string) => emailRegex.test(email);
 
   return (
     <ThemedBackground>
@@ -114,7 +120,10 @@ export default function () {
               verificationStage === verificationStages["STARTED"] ? (
                 <InlineButton
                   title="Verify Email"
-                  disabled={verificationStage === verificationStages["STARTED"]}
+                  disabled={
+                    verificationStage === verificationStages["STARTED"] ||
+                    !isValidEmail(email)
+                  }
                   onPress={handleVerification}
                 />
               ) : (
@@ -134,6 +143,7 @@ export default function () {
                 />
               </View>
             ) : null}
+            {error ? <LineError message={error} /> : null}
             <RoundedButton
               title="Register"
               disabled={verificationStage !== verificationStages["COMPLETED"]}
