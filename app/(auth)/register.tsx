@@ -5,8 +5,9 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ThemedBackground from "@/components/ThemedBackground";
 import { router } from "expo-router";
 import { Colors } from "@/constants/Colors";
@@ -15,6 +16,9 @@ import RoundedButton from "@/components/buttons/RoundedButton";
 import InlineButton from "@/components/buttons/InlineButton";
 import OTP from "@/components/textinputs/OTP";
 import LineError from "@/components/text/LineError";
+import client from "@/connection/client";
+import { AxiosError } from "axios";
+import SinglePicker from "@/components/dropdown/SinglePicker";
 
 const verificationStages = {
   NOT_STARTED: 0,
@@ -33,23 +37,83 @@ export default function () {
   );
 
   const [city, setCity] = useState("");
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [adminName, setAdminName] = useState("");
+  const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
+  const [selectedCurrencyId, setSelectedCurrencyId] = useState(null);
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
+
+  const [fetchOTP, stefetchOTP] = useState("");
+  const [currencies, setCurrencies] = useState([]);
+  useEffect(() => {
+    fetchCurrencies();
+  }, []);
+  async function fetchCurrencies() {
+    try {
+      const { data, status } = await client.get("/currencies");
+      if (status === 200) {
+        setCurrencies(data.data);
+      } else throw new Error(data.message);
+    } catch (err: any) {
+      Alert.alert("Error", err.message);
+    }
+  }
 
   async function handleVerification() {
     if (verificationStage === verificationStages["NOT_STARTED"])
       setVerificationStage(verificationStages["STARTED"]);
+    await sendOTP(email);
+  }
+
+  async function sendOTP(email: string) {
+    try {
+      const { data, status } = await client.post(
+        `/verify_email?email=${email}`
+      );
+      if (status === 200) {
+        Alert.alert("Success", data.message);
+        stefetchOTP(data.code);
+      } else throw new Error(data.message);
+    } catch (err: any) {
+      if (err instanceof AxiosError) {
+        Alert.alert("Error", err.response?.data.message);
+      } else {
+        Alert.alert("Error", err.message);
+      }
+    }
   }
 
   async function verifyOTP() {
+    console.warn({ otp, fetchOTP });
+    if (otp !== fetchOTP.toString()) {
+      setError("You have entered an incorrect OTP");
+      return;
+    }
+    setError("");
     setVerificationStage(verificationStages["COMPLETED"]);
   }
 
   async function registerUser() {
-    setVerificationStage(verificationStages["REGISTERED"]);
+    if (!city || !adminName || !mobile || !email || !selectedCurrencyId) {
+      Alert.alert("Error", "All fields are required.");
+      return;
+    }
+    try {
+      const { data, status } = await client.post("/register-jamaat", {
+        name: city,
+        admin_name: adminName,
+        mobile: mobile,
+        email,
+        currency_id: selectedCurrencyId,
+      });
+      if (status !== 200) throw new Error(data.message);
+      setVerificationStage(verificationStages["REGISTERED"]);
+    } catch (err: any) {
+      if (err instanceof AxiosError)
+        Alert.alert("Error", err.response?.data.message);
+      else Alert.alert("Error", err.message);
+    }
   }
 
   const isValidEmail = (email: string) => emailRegex.test(email);
@@ -100,15 +164,29 @@ export default function () {
             <TextInputLight
               title="Name"
               placeholder="Enter Name"
-              value={name}
-              onChangeText={setName}
+              value={adminName}
+              onChangeText={setAdminName}
             />
             <TextInputLight
               title="Phone Number"
               placeholder="+91*******786"
               keyboardType="number-pad"
-              value={phoneNumber}
-              onChangeText={setPhoneNumber}
+              value={mobile}
+              onChangeText={setMobile}
+            />
+            {/* <TextInputLight
+              title="Currency"
+              placeholder="Select"
+              // keyboardType="number-pad"
+              value={currencies[0]}
+              // onChangeText={setMobile}
+            /> */}
+            <SinglePicker
+              label="Currency"
+              options={currencies}
+              labelField="currency_code"
+              valueField="id"
+              onChange={(value: any) => setSelectedCurrencyId(value)}
             />
             <TextInputLight
               title="Email"
