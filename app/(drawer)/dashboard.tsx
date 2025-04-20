@@ -14,8 +14,14 @@ const Dashboard = () => {
         <View style={{ margin: 10 }}>
           <UserDashboardCard />
         </View>
-        <View style={{ margin: 10 }}>
-          <MenuCard day="Today" />
+        <View>
+          <MenuCard
+            day={"Monday"}
+            date={"21 April"}
+            arabicDate={"١٤ شوال"}
+            menu={"Chicken Tarkari, Roti, Dal Chawal Palidu"}
+            rsvEndsTime={"RSV Ends Tomorrow at 8:00 PM"}
+          />
         </View>
       </ScrollView>
     </ThemedBackground>

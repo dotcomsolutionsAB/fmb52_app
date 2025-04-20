@@ -44,7 +44,7 @@ export default function () {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
 
-  const [fetchOTP, stefetchOTP] = useState("");
+  const [fetchOTP, setFetchOTP] = useState("");
   const [currencies, setCurrencies] = useState([]);
   useEffect(() => {
     fetchCurrencies();
@@ -73,7 +73,7 @@ export default function () {
       );
       if (status === 200) {
         Alert.alert("Success", data.message);
-        stefetchOTP(data.code);
+        setFetchOTP(data.code);
       } else throw new Error(data.message);
     } catch (err: any) {
       if (err instanceof AxiosError) {

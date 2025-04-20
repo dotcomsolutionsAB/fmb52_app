@@ -12,7 +12,7 @@ import { Colors } from "@/constants/Colors";
 import InlineButton from "../buttons/InlineButton";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function () {
+export default function ReceiptCard() {
   return (
     <View style={styles.container}>
       <View
@@ -20,41 +20,50 @@ export default function () {
           flex: 1,
           backgroundColor: Colors.light.white,
           borderWidth: 1,
-          borderTopStartRadius: 10,
-          borderBottomStartRadius: 10,
+          borderRadius: 10,
+          borderTopRightRadius: 0,
+          borderBottomRightRadius: 0,
           borderColor: Colors.light.accent,
           padding: 10,
           gap: 7,
+          flexDirection: "row",
+          justifyContent: "space-between",
         }}
       >
-        <Text style={{ fontSize: 16, textAlign: "center" }}>
-          Mustafabhai Yusuf bhai Badri
-        </Text>
-        <View style={{ flexDirection: "row" }}>
-          <View style={{ flex: 1, gap: 3 }}>
-            <Text style={styles.subImpText}>ITS : {"4045XXXX"}</Text>
-            <Text style={styles.subImpText}>Date : 11/09/2024</Text>
-            <Text style={styles.subImpText}>Burhani - A05</Text>
-          </View>
-          <View style={{ flex: 1, alignItems: "flex-end", gap: 3 }}>
-            <Text
-              style={{
-                fontSize: 16,
-                color: Colors.light.accent,
-                fontWeight: "bold",
-              }}
-            >
-              Cash
-            </Text>
-            <Text
-              style={{
-                fontSize: 14,
-                color: Colors.light.accent,
-                fontWeight: "bold",
-              }}
-            >
-              Amount : {"5000"}
-            </Text>
+        <View style={{ gap: 10 }}>
+          <Image
+            source={require("@/assets/images/profile.png")}
+            style={{ borderRadius: 5 }}
+          />
+        </View>
+        <View style={{ flex: 1, gap: 10, justifyContent: "center" }}>
+          <Text style={{ fontSize: 16 }}>Mustafabhai Yusuf bhai Badri</Text>
+          <View style={{ flexDirection: "row" }}>
+            <View style={{ flex: 1, gap: 3 }}>
+              <Text style={styles.subImpText}>ITS : {"4045XXXX"}</Text>
+              <Text style={styles.subImpText}>Date : 11/09/2024</Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: Colors.light.accent,
+                  fontWeight: "600",
+                }}
+              >
+                Amount : {"5000"}
+              </Text>
+            </View>
+            <View style={{ flex: 1, alignItems: "flex-end", gap: 3 }}>
+              <Text style={styles.subImpText}>Burhani - A05</Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: Colors.light.accent,
+                  fontWeight: "bold",
+                }}
+              >
+                Cash
+              </Text>
+            </View>
           </View>
         </View>
       </View>
@@ -85,6 +94,6 @@ const styles = StyleSheet.create({
   },
   subImpText: {
     fontSize: 14,
-    color: "darkgrey",
+    color: "#777",
   },
 });
