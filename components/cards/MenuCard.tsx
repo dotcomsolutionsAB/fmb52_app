@@ -1,44 +1,139 @@
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TextInputProps,
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
-import React, { useEffect, useState } from "react";
-import { Colors } from "@/constants/Colors";
-import InlineButton from "../buttons/InlineButton";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import React, { useState } from "react";
+import { Feather } from "@expo/vector-icons";
 
 interface MenuCardProps {
-  day?: string;
+  day: string;
+  date: string;
+  arabicDate: string;
+  menu: string;
+  rsvEndsTime: string;
 }
 
-export default function (params: MenuCardProps) {
-  const [doExpand, setDoExpand] = useState(false);
+export default function MenuCard({
+  day,
+  date,
+  arabicDate,
+  menu,
+  rsvEndsTime,
+}: MenuCardProps) {
+  const [takingThaali, setTakingThaali] = useState(false);
+  const [thaaliSize, setThaaliSize] = useState("FULL");
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{params.day}</Text>
-      <View style={styles.subContainer}>
-        <Image
-          source={require("@/assets/images/faiz.png")}
-          style={{ width: 100 }}
-          resizeMode="contain"
-        />
-        <View style={{ flex: 1, alignItems: "center", gap: 5 }}>
-          <Text style={styles.subtitle}>Dal Chawal Palidu</Text>
-          <Text style={styles.subtext}>
-            Niyaz by : Shk Abbas bhai Saifuddin bhai Jamali
-          </Text>
+      {/* Top section with date and thaali info */}
+      <View style={styles.topSection}>
+        {/* Date block */}
+        <View style={styles.dateBlock}>
+          <View style={styles.dateContainer}>
+            <Text style={styles.arabicDate}>{arabicDate}</Text>
+            <Text style={styles.date}>{date}</Text>
+          </View>
+          <View style={styles.dayContainer}>
+            <Text style={styles.day}>{day}</Text>
+          </View>
+        </View>
 
-          <TouchableOpacity
-            style={{ alignSelf: "flex-end" }}
-            onPress={() => setDoExpand((st) => !st)}
-          >
-            <Text style={styles.readMore}>
-              {!doExpand ? "Read More" : "Read Less"}
-            </Text>
+        {/* Thaali info */}
+        <View style={styles.thaaliInfoContainer}>
+          <View style={styles.thaaliRow}>
+            <Text style={styles.thaaliText}>Taking Thaali</Text>
+            <View style={styles.toggleContainer}>
+              <TouchableOpacity
+                activeOpacity={0.6}
+                style={[
+                  styles.toggleButton,
+                  !takingThaali && styles.toggleButtonActive,
+                ]}
+                onPress={() => setTakingThaali(false)}
+              >
+                <Text
+                  style={[
+                    styles.toggleText,
+                    !takingThaali && styles.toggleTextActive,
+                  ]}
+                >
+                  NO
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.6}
+                style={[
+                  styles.toggleButton,
+                  takingThaali && styles.toggleButtonActive,
+                ]}
+                onPress={() => setTakingThaali(true)}
+              >
+                <Text
+                  style={[
+                    styles.toggleText,
+                    takingThaali && styles.toggleTextActive,
+                  ]}
+                >
+                  YES
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* RSV ends text */}
+          <Text style={styles.rsvText}>{rsvEndsTime}</Text>
+        </View>
+      </View>
+
+      {/* Bottom section with menu and size */}
+      <View style={styles.bottomSection}>
+        {/* Menu */}
+        <Text style={styles.menuText}>{menu}</Text>
+
+        {/* Size and Salwaat */}
+        <View style={styles.sizeRow}>
+          <View style={styles.sizeContainer}>
+            <Text style={styles.sizeText}>Thaali Size</Text>
+            <View style={styles.sizeToggleContainer}>
+              <TouchableOpacity
+                activeOpacity={0.6}
+                style={[
+                  styles.sizeButton,
+                  thaaliSize === "FULL" && styles.sizeButtonActive,
+                ]}
+                onPress={() => setThaaliSize("FULL")}
+              >
+                <Text
+                  style={[
+                    styles.sizeButtonText,
+                    thaaliSize === "FULL" && styles.sizeButtonTextActive,
+                  ]}
+                >
+                  FULL
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.6}
+                style={[
+                  styles.sizeButton,
+                  thaaliSize === "HALF" && styles.sizeButtonActive,
+                ]}
+                onPress={() => setThaaliSize("HALF")}
+              >
+                <Text
+                  style={[
+                    styles.sizeButtonText,
+                    thaaliSize === "HALF" && styles.sizeButtonTextActive,
+                  ]}
+                >
+                  HALF
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <TouchableOpacity activeOpacity={0.6} style={styles.salwaatContainer}>
+            <Text style={styles.salwaatText}>Salwaat Chitti</Text>
+            <View style={styles.linkIconContainer}>
+              <Feather name="link" size={14} color={"#000"} />
+            </View>
           </TouchableOpacity>
         </View>
       </View>
@@ -48,39 +143,160 @@ export default function (params: MenuCardProps) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    marginVertical: 10,
+    marginHorizontal: 15,
     borderRadius: 10,
-    backgroundColor: Colors.light.accent,
-    borderColor: Colors.light.accent,
-    borderWidth: 1,
+    overflow: "hidden",
+    backgroundColor: "#fff",
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
   },
-  title: {
-    textAlign: "center",
-    fontSize: 16,
-    fontWeight: "bold",
-    color: Colors.light.white,
-    marginVertical: 5,
-  },
-  subContainer: {
-    backgroundColor: Colors.light.white,
+  topSection: {
     flexDirection: "row",
-    padding: 7,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+    backgroundColor: "#E8EAEA",
   },
-  subtitle: {
+  dateBlock: {
+    width: 140,
+    margin: 15,
+    marginRight: 0,
+    borderRadius: 10,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#c4a053",
+  },
+  dateContainer: {
+    alignItems: "center",
+    paddingVertical: 10,
+  },
+  arabicDate: {
+    color: "#000",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  date: {
+    color: "#000",
+    fontSize: 22,
+    fontWeight: "bold",
+  },
+  dayContainer: {
+    backgroundColor: "#c4a053",
+    width: "100%",
+    borderBottomLeftRadius: 9,
+    borderBottomRightRadius: 9,
+    alignItems: "center",
+    paddingVertical: 4,
+  },
+  day: {
+    color: "#fff",
     fontSize: 18,
-    color: Colors.light.accent,
     fontWeight: "bold",
   },
-  subtext: {
-    fontSize: 15,
+  thaaliInfoContainer: {
+    flex: 1,
+    padding: 20,
+    justifyContent: "center",
+  },
+  thaaliRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  thaaliText: {
+    fontSize: 17,
+    color: "#333",
+    marginRight: 15,
+  },
+  toggleContainer: {
+    flexDirection: "row",
+    borderRadius: 20,
+    overflow: "hidden",
+    backgroundColor: "#ddd",
+  },
+  toggleButton: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+  },
+  toggleButtonActive: {
+    backgroundColor: "#c4a053",
+  },
+  toggleText: {
+    fontSize: 8,
+    color: "#666",
     fontWeight: "500",
-    color: "darkgrey",
   },
-  readMore: {
-    color: Colors.light.alert,
-    textDecorationLine: "underline",
+  toggleTextActive: {
+    color: "#fff",
     fontWeight: "bold",
+  },
+  rsvText: {
+    fontSize: 17,
+    color: "#333",
+  },
+  bottomSection: {
+    padding: 20,
+    backgroundColor: "#fff",
+  },
+  menuText: {
+    fontSize: 18,
+    color: "#c4a053",
+    fontWeight: "600",
+    marginBottom: 20,
+  },
+  sizeRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  sizeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  sizeText: {
+    fontSize: 16,
+    color: "#333",
+    marginRight: 15,
+  },
+  sizeToggleContainer: {
+    flexDirection: "row",
+    borderRadius: 20,
+    overflow: "hidden",
+    backgroundColor: "#ddd",
+  },
+  sizeButton: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+  },
+  sizeButtonActive: {
+    backgroundColor: "#c4a053",
+  },
+  sizeButtonText: {
+    fontSize: 9,
+    color: "#666",
+    fontWeight: "500",
+  },
+  sizeButtonTextActive: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  salwaatContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  salwaatText: {
+    color: "#000",
+    fontSize: 14,
+    marginRight: 5,
+  },
+  linkIconContainer: {
+    paddingLeft: 1,
+  },
+  linkIcon: {
+    fontSize: 18,
   },
 });
