@@ -21,6 +21,7 @@ export default function () {
   //       SplashScreen.hideAsync();
   //     }, 2000);
   //   }, []);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Drawer
@@ -193,12 +194,14 @@ export default function () {
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
   const { state, descriptors, navigation } = props;
+
   const user = useSelector((state: any) => state.user);
+
   const dispatch = useDispatch();
 
   const signOutUser = async () => {
     try {
-      await client.post("/logout");
+      // await client.post("/logout", {});
       dispatch(signout());
       router.replace("/(auth)/login");
     } catch (err) {

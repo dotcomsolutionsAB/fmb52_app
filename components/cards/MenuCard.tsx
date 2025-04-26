@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 
@@ -18,7 +18,6 @@ export default function MenuCard({
   rsvEndsTime,
 }: MenuCardProps) {
   const [takingThaali, setTakingThaali] = useState(false);
-  const [thaaliSize, setThaaliSize] = useState("FULL");
 
   return (
     <View style={styles.container}>
@@ -89,46 +88,6 @@ export default function MenuCard({
 
         {/* Size and Salwaat */}
         <View style={styles.sizeRow}>
-          <View style={styles.sizeContainer}>
-            <Text style={styles.sizeText}>Thaali Size</Text>
-            <View style={styles.sizeToggleContainer}>
-              <TouchableOpacity
-                activeOpacity={0.6}
-                style={[
-                  styles.sizeButton,
-                  thaaliSize === "FULL" && styles.sizeButtonActive,
-                ]}
-                onPress={() => setThaaliSize("FULL")}
-              >
-                <Text
-                  style={[
-                    styles.sizeButtonText,
-                    thaaliSize === "FULL" && styles.sizeButtonTextActive,
-                  ]}
-                >
-                  FULL
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={0.6}
-                style={[
-                  styles.sizeButton,
-                  thaaliSize === "HALF" && styles.sizeButtonActive,
-                ]}
-                onPress={() => setThaaliSize("HALF")}
-              >
-                <Text
-                  style={[
-                    styles.sizeButtonText,
-                    thaaliSize === "HALF" && styles.sizeButtonTextActive,
-                  ]}
-                >
-                  HALF
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-
           <TouchableOpacity activeOpacity={0.6} style={styles.salwaatContainer}>
             <Text style={styles.salwaatText}>Salwaat Chitti</Text>
             <View style={styles.linkIconContainer}>
@@ -143,7 +102,6 @@ export default function MenuCard({
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 10,
     marginHorizontal: 15,
     borderRadius: 10,
     overflow: "hidden",
@@ -239,14 +197,15 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   bottomSection: {
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
     backgroundColor: "#fff",
   },
   menuText: {
     fontSize: 18,
     color: "#c4a053",
     fontWeight: "600",
-    marginBottom: 20,
+    marginBottom: 15,
   },
   sizeRow: {
     flexDirection: "row",
