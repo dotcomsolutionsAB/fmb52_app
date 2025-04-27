@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, View,Dimensions } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View,Dimensions, Touchable, TouchableOpacity, FlatList } from "react-native";
 import React, { useRef,useState } from "react";
 import ThemedBackground from "@/components/ThemedBackground";
 import UserDashboardCard from "@/components/cards/UserDashboardCard";
@@ -6,9 +6,13 @@ import MenuCard from "@/components/cards/MenuCard";
 import Carousel, {Pagination} from 'react-native-reanimated-carousel';
 import MasoolCard from "@/components/cards/MasoolCard";
 import ThaaliCard from "@/components/cards/ThaaliCard";
+import ReceiptCard from "@/components/cards/ReceiptCard";
+import QuickAccessCard from "@/components/cards/QuickAccessCard"
+import { Colors } from "@/constants/Colors";
 const { width } = Dimensions.get('window');
 const BANNER_WIDTH = width ;
 const BANNER_HEIGHT=120
+const CARD_WIDTH=(width-50)/3
 const Dashboard = () => {
   const ref=useRef(null)
    const [taking_thaali, settaking_thaali] = useState('Yes')
@@ -27,6 +31,44 @@ const Dashboard = () => {
       setthaali_size('Full')
     }
   }
+  const routes=[
+    {
+      key:1,
+      title:"Thaali Menu",
+      route:'thaali-menu'
+    },
+    {
+      key:2,
+      title:"Receipts",
+      route:'receipts'
+    },
+    {
+      key:3,
+      title:"Zabihat",
+      route:"zabihat"
+    },
+    {
+      key:4,
+      title:"Feedback",
+      route:"feedback"
+    },
+    {
+      key:5,
+      title:"Edit Profile",
+      route:"edit_profile"
+    },
+    {
+      key:6,
+      title:"Notification",
+      route:"notifications"
+    },
+    {
+      key:7,
+      title:"Niyaz Date",
+      route:"niyaz"
+    },
+  ]
+ 
   return (
     <ThemedBackground>
       <ScrollView
@@ -71,6 +113,27 @@ const Dashboard = () => {
         </View>
         <View style={{width:'100%',paddingHorizontal:15,marginTop:15}}>
         <UserDashboardCard/>
+        <View style={{paddingVertical:15}}>
+          <View style={{width:"100%",padding:10,backgroundColor:Colors.light.accent,borderTopEndRadius:10,borderTopStartRadius:10}}>
+            <Text style={{color:'white',fontSize:16,fontWeight:'bold'}}>Recent Receipts</Text>
+          </View>
+          {Array(4)
+          .fill(0)
+          .map((_, i) => (
+            <ReceiptCard key={i} innerCardStyle={{gap:0}} fontSize={13} customStyle={{borderRadius:0,borderColor:'lightgray'}} buttonStyle={{ borderEndEndRadius: 0,borderTopEndRadius: 0,borderBottomWidth:1,borderColor:'lightgray'}}/>
+          ))}
+         <TouchableOpacity style={{width:'100%',backgroundColor:"white",borderBottomEndRadius:10,borderBottomStartRadius:10,alignItems:'center',justifyContent:'center',padding:10}}>
+          <Text style={{color:'#1976D2',fontSize:16,fontWeight:'bold'}}>View   All</Text>
+         </TouchableOpacity>
+        </View>
+        <Text style={{color:'grey',fontSize:16,fontWeight:'bold',marginBottom:10}}>Quick Access</Text>
+        <View style={styles.quickAccessContainer}>
+          {routes.map((route, index) => (
+            <View key={index} style={styles.quickAccessItem}>
+              <QuickAccessCard name={route.title} route={route.route} />
+            </View>
+          ))}
+        </View>
         </View>
       </ScrollView>
     </ThemedBackground>
@@ -126,5 +189,15 @@ const styles = StyleSheet.create({
   paginationDotActive: {
     backgroundColor: "yellow",
     width: 20,
+  },
+  quickAccessContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    paddingBottom: 15,
+  },
+  quickAccessItem: {
+    width: CARD_WIDTH,
+    marginBottom: 10,
   },
 });

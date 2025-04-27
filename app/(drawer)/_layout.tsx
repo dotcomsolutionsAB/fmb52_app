@@ -1,7 +1,7 @@
 import client from "@/connection/client";
 import { Colors } from "@/constants/Colors";
 import { signout } from "@/store/reducer/user";
-import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Feather, Ionicons, MaterialCommunityIcons,FontAwesome5 } from "@expo/vector-icons";
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
@@ -92,6 +92,16 @@ export default function () {
             title: "Start & Stop Thaali",
             drawerIcon: (props) => (
               <Ionicons name="pause-circle-outline" {...props} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="edit_profile" // This is the name of the page and must match the url from root
+          options={{
+            drawerLabel: "Edit Profile",
+            title: "Edit Profile",
+            drawerIcon: (props) => (
+              <Feather name="edit" {...props} />
             ),
           }}
         />
@@ -259,7 +269,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
 
       {/* Render the first 3 items */}
       {state.routes
-        .slice(0, 6)
+        .slice(0, 7)
         .map((route, index) => renderDrawerItem(route, index))}
 
       {user.role === "jamiat_admin" && <SeparatorAdmin />}
@@ -267,8 +277,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
       {/* Render the remaining items */}
       {user.role === "jamiat_admin" &&
         state.routes
-          .slice(6)
-          .map((route, index) => renderDrawerItem(route, index + 6))}
+          .slice(7)
+          .map((route, index) => renderDrawerItem(route, index + 7))}
 
       <DrawerItem
         onPress={() =>
