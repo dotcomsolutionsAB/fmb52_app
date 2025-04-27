@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Create an instance of Axios with a baseURL
 const client = axios.create({
-  baseURL: "https://api.fmb52.com/api", // Replace with your API base URL
+  baseURL: "https://api.fmb52.com", // Replace with your API base URL
   timeout: 10000, // Optional timeout configuration (in ms)
   headers: {
     "Content-Type": "application/json",
