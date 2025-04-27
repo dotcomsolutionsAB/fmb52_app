@@ -133,7 +133,7 @@ const Dashboard = () => {
               <QuickAccessCard name={route.title} route={route.route} />
             </View>
           ))}
-        </View>
+          </View>
         </View>
       </ScrollView>
     </ThemedBackground>
