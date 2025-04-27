@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+  RefreshControl,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import ThemedBackground from "@/components/ThemedBackground";
 import MenuCard from "@/components/cards/MenuCard";
@@ -133,8 +140,11 @@ const Thaali = () => {
           }
           ListEmptyComponent={
             <Text style={styles.emptyText}>
-              {loading ? "Loading menu..." : "No menu available for this week"}
+              {!loading && "No menu available for this week"}
             </Text>
+          }
+          refreshControl={
+            <RefreshControl refreshing={loading} onRefresh={fetchWeeklyMenu} />
           }
         />
       </View>
