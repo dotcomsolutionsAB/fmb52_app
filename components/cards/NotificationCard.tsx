@@ -14,13 +14,22 @@ import { Colors } from "@/constants/Colors";
 
 // Define the notification interface
 export interface Notification {
-  id: string;
-  Title: string;
-  Dated: string;
-  Description: string;
+  id: string | number;
+  // Old API fields
+  Title?: string;
+  Dated?: string;
+  Description?: string;
   Image_Url?: string;
   Button_Text?: string;
   Button_Url?: string;
+
+  // New API fields
+  title?: string;
+  msg?: string;
+  image?: string;
+  created_at?: string;
+  button_title?: string;
+  button_link?: string;
 }
 
 interface NotificationCardProps {
@@ -32,9 +41,6 @@ const NotificationCard: React.FC<NotificationCardProps> = ({
 }) => {
   const [expanded, setExpanded] = useState(false);
   const [imageExpanded, setImageExpanded] = useState(false);
-
-  // Parse the date from the string format
-  const date = new Date(parseInt(notification.Dated.match(/\d+/)?.[0] || "0"));
 
   // Function to format the date
   const formatDate = (date: Date): string => {
@@ -48,7 +54,27 @@ const NotificationCard: React.FC<NotificationCardProps> = ({
     return `${day}/${month}/${year} ${hours}:${minutes} ${ampm}`;
   };
 
-  const formattedDate = formatDate(date);
+  // Get title, message, image, and date based on whichever API format is used
+  const title = notification.title || notification.Title || "";
+  const message = notification.msg || notification.Description || "";
+  const imageUrl = notification.image || notification.Image_Url;
+  const buttonTitle = notification.button_title || notification.Button_Text;
+  const buttonLink = notification.button_link || notification.Button_Url;
+
+  // Parse the date from either API format
+  let formattedDate = "";
+
+  if (notification.created_at) {
+    // Parse ISO 8601 date format
+    const date = new Date(notification.created_at);
+    formattedDate = formatDate(date);
+  } else if (notification.Dated) {
+    // Parse the date from the string format with /Date(...)/ pattern
+    const date = new Date(
+      parseInt(notification.Dated.match(/\d+/)?.[0] || "0")
+    );
+    formattedDate = formatDate(date);
+  }
 
   const toggleExpanded = () => {
     setExpanded(!expanded);
@@ -67,16 +93,16 @@ const NotificationCard: React.FC<NotificationCardProps> = ({
   return (
     <View style={styles.card}>
       <View style={styles.header}>
-        <Text style={styles.title}>{notification.Title}</Text>
+        <Text style={styles.title}>{title}</Text>
         <Text style={styles.date}>{formattedDate}</Text>
       </View>
-      {notification.Image_Url && (
+      {imageUrl && (
         <TouchableOpacity onPress={toggleImageExpanded}>
           <View style={styles.expandIcon}>
             <Ionicons name="expand" size={22} color="black" />
           </View>
           <Image
-            source={{ uri: notification.Image_Url }}
+            source={{ uri: imageUrl }}
             style={styles.image}
             resizeMode="contain"
           />
@@ -85,30 +111,28 @@ const NotificationCard: React.FC<NotificationCardProps> = ({
       <Text
         style={[
           styles.description,
-          { marginBottom: notification.Description.length < 100 ? 15 : 0 },
+          { marginBottom: message.length < 100 ? 15 : 0 },
         ]}
       >
         {expanded
-          ? notification.Description
-          : notification.Description.length > 100
-          ? `${notification.Description.substring(0, 100)}...`
-          : notification.Description}
+          ? message
+          : message.length > 100
+          ? `${message.substring(0, 100)}...`
+          : message}
       </Text>
-      {notification.Description.length > 100 && (
+      {message.length > 100 && (
         <TouchableOpacity onPress={toggleExpanded}>
           <Text style={styles.readMore}>
             {expanded ? "Read Less" : "Read More..."}
           </Text>
         </TouchableOpacity>
       )}
-      {notification.Button_Url && (
+      {buttonLink && (
         <TouchableOpacity
-          onPress={() => openUrl(notification.Button_Url!)}
+          onPress={() => openUrl(buttonLink)}
           style={styles.button}
         >
-          <Text style={styles.buttonText}>
-            {notification.Button_Text || "Open Link"}
-          </Text>
+          <Text style={styles.buttonText}>{buttonTitle || "Open Link"}</Text>
         </TouchableOpacity>
       )}
 
@@ -125,7 +149,7 @@ const NotificationCard: React.FC<NotificationCardProps> = ({
             <AntDesign name="close" size={28} color="#FFFFFF" />
           </TouchableOpacity>
           <Image
-            source={{ uri: notification.Image_Url }}
+            source={{ uri: imageUrl }}
             style={styles.expandedImage}
             resizeMode="contain"
           />
@@ -139,6 +163,8 @@ export default NotificationCard;
 
 const styles = StyleSheet.create({
   card: {
+    width: "93%",
+    alignSelf: "center",
     backgroundColor: "#fff",
     borderRadius: 8,
     borderWidth: 1.9,
@@ -149,7 +175,6 @@ const styles = StyleSheet.create({
     shadowRadius: 1.5,
     elevation: 3,
     marginVertical: 8,
-    marginHorizontal: 10,
     overflow: "hidden",
   },
   image: {

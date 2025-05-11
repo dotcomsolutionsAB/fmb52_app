@@ -36,12 +36,12 @@ interface FormattedMenuItemType {
 const Thaali = () => {
   const [weeklyMenu, setWeeklyMenu] = useState<MenuItemType[]>([]);
   const [loading, setLoading] = useState(false);
-  const [taking_thaali, settaking_thaali] = useState("Yes")
-   const onTakingThaaliChange = () => {
-    if (taking_thaali === 'Yes') {
-      settaking_thaali('No');
+  const [taking_thaali, settaking_thaali] = useState("Yes");
+  const onTakingThaaliChange = () => {
+    if (taking_thaali === "Yes") {
+      settaking_thaali("No");
     } else {
-      settaking_thaali('Yes');
+      settaking_thaali("Yes");
     }
   };
   const token = useSelector((state: any) => state.user.token);
@@ -118,73 +118,76 @@ const Thaali = () => {
       rsvEndsTime: rsvEndsTime,
     };
   };
-   const formatHijriDate = (dateString: string | undefined): string => {
-  if (!dateString) return 'N/A';
-  
-  // Split the date string to extract components
-  const parts = dateString.split(' ');
-  
-  // Check if we have enough parts
-  if (parts.length < 3) return dateString;
-  
-  // Extract the day and month
-  const day = parts[0];
-  const month = parts[1];
-  
-  // Map for Arabic month names
-  const arabicMonths: Record<string, string> = {
-    'Muharram': 'محرم',
-    'Safar': 'صفر',
-    'Rabi-ul-Awwal': 'ربيع الأول',
-    'Rabi-ul-Akhir': 'ربيع الثاني',
-    'Jumada-ul-Awwal': 'جمادى الأولى',
-    'Jumada-ul-Akhir': 'جمادى الآخرة',
-    'Rajab': 'رجب',
-    'Shaban': 'شعبان',
-    'Ramadan': 'رمضان',
-    'Shawwal': 'شوال',
-    'Zilqadah': 'ذو القعدة',
-    'Zilhijjah': 'ذو الحجة'
+  const formatHijriDate = (dateString: string | undefined): string => {
+    if (!dateString) return "N/A";
+
+    // Split the date string to extract components
+    const parts = dateString.split(" ");
+
+    // Check if we have enough parts
+    if (parts.length < 3) return dateString;
+
+    // Extract the day and month
+    const day = parts[0];
+    const month = parts[1];
+
+    // Map for Arabic month names
+    const arabicMonths: Record<string, string> = {
+      Muharram: "محرم",
+      Safar: "صفر",
+      "Rabi-ul-Awwal": "ربيع الأول",
+      "Rabi-ul-Akhir": "ربيع الثاني",
+      "Jumada-ul-Awwal": "جمادى الأولى",
+      "Jumada-ul-Akhir": "جمادى الآخرة",
+      Rajab: "رجب",
+      Shaban: "شعبان",
+      Ramadan: "رمضان",
+      Shawwal: "شوال",
+      Zilqadah: "ذو القعدة",
+      Zilhijjah: "ذو الحجة",
+    };
+
+    // Map for Arabic numerals
+    const arabicNumerals: Record<string, string> = {
+      "0": "٠",
+      "1": "١",
+      "2": "٢",
+      "3": "٣",
+      "4": "٤",
+      "5": "٥",
+      "6": "٦",
+      "7": "٧",
+      "8": "٨",
+      "9": "٩",
+    };
+
+    // Convert day to Arabic numerals
+    const arabicDay = day
+      .split("")
+      .map((digit) => arabicNumerals[digit] || digit)
+      .join("");
+
+    // Get Arabic month name
+    const arabicMonth = arabicMonths[month] || month;
+
+    // Return formatted string with Arabic text direction
+    return `${arabicDay} ${arabicMonth}`;
   };
-  
-  // Map for Arabic numerals
-  const arabicNumerals: Record<string, string> = {
-    '0': '٠',
-    '1': '١',
-    '2': '٢',
-    '3': '٣',
-    '4': '٤',
-    '5': '٥',
-    '6': '٦',
-    '7': '٧',
-    '8': '٨',
-    '9': '٩'
-  };
-  
-  // Convert day to Arabic numerals
-  const arabicDay = day.split('').map(digit => 
-    arabicNumerals[digit] || digit
-  ).join('');
-  
-  // Get Arabic month name
-  const arabicMonth = arabicMonths[month] || month;
-  
-  // Return formatted string with Arabic text direction
-  return `${arabicDay} ${arabicMonth}`;
-};
 
   const renderItem = ({ item }: { item: MenuItemType }) => {
     const formattedItem = formatMenuData(item);
-    console.log("Formatted Item: ", item);
     return (
       <View style={{ width: "100%", paddingHorizontal: 10 }}>
-      <ThaaliCard
-                 menu={formattedItem.menu} 
-                  english_date={formattedItem.date} 
-                  arabic_date={formatHijriDate(item.hijri_date)} 
-                  day={formattedItem.day} 
-                  rsv_end_time={'8:00 PM'} 
-                /> 
+        <ThaaliCard
+          menu={formattedItem.menu}
+          english_date={formattedItem.date}
+          arabic_date={formatHijriDate(item.hijri_date)}
+          day={formattedItem.day}
+          rsv_end_time={"8:00 PM"}
+          thaali_size={taking_thaali}
+          onThaaliSizeChange={onTakingThaaliChange}
+          salwat_chitti={"None"}
+        />
       </View>
 
       // <MenuCard
