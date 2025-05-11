@@ -86,7 +86,7 @@ export default function () {
             ),
           }}
         />
-        <Drawer.Screen
+        {/* <Drawer.Screen
           name="pause-thaali" // This is the name of the page and must match the url from root
           options={{
             drawerLabel: "Start & Stop Thaali",
@@ -95,7 +95,7 @@ export default function () {
               <Ionicons name="pause-circle-outline" {...props} />
             ),
           }}
-        />
+        /> */}
         <Drawer.Screen
           name="edit_profile" // This is the name of the page and must match the url from root
           options={{
@@ -270,9 +270,9 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         />
       </View>
 
-      {/* Render the first 3 items */}
+      {/* Render the first 6 items */}
       {state.routes
-        .slice(0, 7)
+        .slice(0, 6)
         .map((route, index) => renderDrawerItem(route, index))}
 
       {user.role === "jamiat_admin" && <SeparatorAdmin />}
@@ -280,7 +280,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
       {/* Render the remaining items */}
       {user.role === "jamiat_admin" &&
         state.routes
-          .slice(7)
+          .slice(6)
           .map((route, index) => renderDrawerItem(route, index + 7))}
 
       <DrawerItem

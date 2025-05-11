@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View,Text,Image, TouchableOpacity } from 'react-native'
 import CustomSwitch from '../buttons/CustomSwitch'
 import { Link } from 'expo-router'
 
-export default function ThaaliCard({english_date,arabic_date,rsv_end_time,menu,thaali_size,taking_thaali,onTakingThaaliChange,onThaaliSizeChange,salwat_chitti,day}) {
+export default function ThaaliCard({english_date,arabic_date,rsv_end_time,menu,thaali_size,onThaaliSizeChange,salwat_chitti,day}) {
+    const [taking_thaali, settaking_thaali] = useState("Yes")
+     const onTakingThaaliChange = () => {
+      if (taking_thaali === 'Yes') {
+        settaking_thaali('No');
+      } else {
+        settaking_thaali('Yes');
+      }
+    };
   return (
    <View style={{width:"100%",borderRadius:15,backgroundColor:'white',borderWidth:1,borderColor:'#E8EAEA'}}>
       <View style={{width:'100%',padding:10,backgroundColor:'#E8EAEA',borderTopRightRadius:15,borderTopLeftRadius:15,flexDirection:'row',alignItems:"center",justifyContent:'space-between'}}>
@@ -28,10 +36,7 @@ export default function ThaaliCard({english_date,arabic_date,rsv_end_time,menu,t
       <View style={{height:80,width:'100%',paddingHorizontal:8}}>
         <Text style={{fontSize:17,fontWeight:'600',color:'#CBA652',padding:10}}>{menu}</Text>
         <View style={{width:'100%',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-          <View style={{flexDirection:'row',alignItems:'center',gap:3}}>
-            <Text style={{fontSize:13,fontWeight:'600',color:'black'}}>Thaali Size</Text>
-            <CustomSwitch customStyle={{width:65}} label1='Full' label2='Half' onChange={onThaaliSizeChange} value={thaali_size} />
-          </View>
+         
           <TouchableOpacity style={{flexDirection:'row',alignItems:'center',gap:2}}>
             <Text style={{fontSize:13,fontWeight:'600',color:'black'}}>Salwaat Chitti</Text>
             <Image source={require('@/assets/images/attachment.png')} style={{height:20,width:20}} />

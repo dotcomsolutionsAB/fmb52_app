@@ -3,9 +3,14 @@ import React, { useCallback, useState } from "react";
 import ThemedBackground from "@/components/ThemedBackground";
 import { Colors } from "@/constants/Colors";
 import RoundedButton from "@/components/buttons/RoundedButton";
+import { useSelector } from "react-redux";
  const primary=Colors.light.accent
 const EditProfile = () => {
   // Add a key to help with proper rendering
+   const token = useSelector((state: any) => state.user.token);
+  const familyId = useSelector((state: any) => state.user.family_id);
+  const username = useSelector((state: any) => state.user.name);
+  const photo=useSelector((state: any) => state.user.photo);
   const [refreshKey] = useState(0);
   const [name, setname] = useState('')
   const [mobile, setmobile] = useState('')
@@ -22,11 +27,12 @@ const EditProfile = () => {
     
           {/* Add your input fields here */}
           <Image
-          source={require("@/assets/images/profile.png")}
+          source={!photo?require("@/assets/images/profile.png"):{uri:photo}}
+
           style={{width:110,height:120,resizeMode:'contain'}}
           />
           <View style={{flex:1,alignItems:'flex-start',gap:4}}>
-           <Text style={{fontSize:14,fontWeight:"bold",color:primary}}>Hussain Bhai Taha Bhai Najmuddin</Text>
+           <Text style={{fontSize:14,fontWeight:"bold",color:primary}}>{username}</Text>
           <Text style={{fontSize:14,color:primary}}>ITS Number: {40415152}</Text>
           <Text style={{fontSize:14,color:primary}}>Family Members: {7}</Text>
           <Text style={{fontSize:14,color:primary}}>Burhani - A05</Text>
