@@ -10,7 +10,21 @@ import React, { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import InlineButton from "../buttons/InlineButton";
 
-export default function () {
+interface UserDashboardCardProps {
+  name: string;
+  sector: string;
+
+  subsector: string;
+  hub: string;
+  paid: string;
+}
+const UserDashboardCard: React.FC<UserDashboardCardProps> = ({
+  name,
+  sector,
+  subsector,
+  hub,
+  paid,
+}) => {
   return (
     <View style={styles.container}>
       <View style={{ gap: 10 }}>
@@ -20,18 +34,19 @@ export default function () {
         </View>
       </View>
       <View style={{ flex: 1 }}>
-        <Text style={[styles.title,{color:'#808080',fontSize:16}]}>Huzefa Ahmed bhai Chaiwala</Text>
+        <Text style={[styles.title,{color:'#808080',fontSize:16}]}>{name}</Text>
         <View style={{ height: 5 }} />
-        <Text style={[styles.subtitle,{color:'#CBA652',fontSize:16,fontWeight:'bold'}]}>Sector:  {"Burhani"}</Text>
-        <Text style={[styles.subtitle,{color:'#CBA652',fontSize:16,fontWeight:'bold'}]}>Sub Sector : {"H07"}</Text>
+        <Text style={[styles.subtitle,{color:'#CBA652',fontSize:16,fontWeight:'bold'}]}>Sector:  {sector}</Text>
+        <Text style={[styles.subtitle,{color:'#CBA652',fontSize:16,fontWeight:'bold'}]}>Sub Sector : {subsector}</Text>
         <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-        <Text style={[styles.subtitle,{color:'#808080',fontSize:16,fontWeight:'bold'}]}>Hub:  {"10,000"}</Text>
-        <Text style={[styles.subtitle,{color:'#27B124',fontSize:16,fontWeight:'bold'}]}>Paid : {"5,000"}</Text>
+        <Text style={[styles.subtitle,{color:'#808080',fontSize:16,fontWeight:'bold'}]}>Hub:  {hub}</Text>
+        <Text style={[styles.subtitle,{color:'#27B124',fontSize:16,fontWeight:'bold'}]}>Paid : {paid}</Text>
         </View>
       </View>
     </View>
   );
 }
+export default UserDashboardCard;
 
 const styles = StyleSheet.create({
   container: {

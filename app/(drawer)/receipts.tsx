@@ -77,7 +77,7 @@ const Receipts = () => {
   };
 
   const renderItem = ({ item }: { item: ReceiptType }) => (
-    <ReceiptCard receipt={item} />
+    <ReceiptCard receipt={item} sector={item.sector_id} subsector={item.sub_sector_id}  />
   );
 
   return (

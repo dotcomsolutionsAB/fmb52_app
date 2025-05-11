@@ -9,18 +9,25 @@ import Entypo from '@expo/vector-icons/Entypo';
 import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 import {launchImageLibrary} from 'react-native-image-picker';
 import { Feather } from '@expo/vector-icons';
+import client from "@/connection/client"
+import { useSelector } from 'react-redux';
 const maxImages=7
 const primary = '#CBA652'
 const Feedback = () => {
   const [value, setValue] = useState(1);
   const [quantityRating, setquantityRating] = useState(1)
   const [overall_quality, setoverall_quality] = useState(1)
+  const [loading, setloading] = useState(false)
   const [images, setImages] = useState([])
   const [foodTags, setFoodTags] = useState({
     Too_hot: false,
     Too_spicy: false,
     Too_oily: false,
   });
+  const familyId = useSelector((state: any) => state.user.family_id);
+  const jamiatId=useSelector((state:any)=>state.user.jamiat_id)
+  const user_id=useSelector((state:any)=>state.user.id)
+  const [comments, setcomments] = useState('')
   const requestGalleryPermission = async () => {
     try {
       console.log("permission")
@@ -41,9 +48,10 @@ const Feedback = () => {
     }
   };
 
+
   const pickImage = async () => {
     const hasPermission = await requestGalleryPermission();
-
+     
 
     const options = {
       mediaType: 'photo',
@@ -84,6 +92,82 @@ const Feedback = () => {
       [tag]: !prev[tag]
     }));
   };
+  const getTodayDate=()=>{
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  }
+  const submit=async()=>{
+    if(!quantityRating||!value||!overall_quality||comments.length===0){
+     alert("Please fill all the required fields")
+      return;
+    }
+    try {
+      console.log("submit")
+      const formData = new FormData();
+      setloading(true)
+    const {data:res,status}=await client.post('/menus/by-date',{
+      "date": getTodayDate(),
+    })
+    if(status===200){
+      if(res.menu.length>0){
+        const id=res.menu[0].id
+        let foodTagsString=""
+      Object.keys(foodTags).map((tag)=>{
+          if(foodTags[tag]){
+            foodTagsString+=tag+","
+          }
+        })
+        if(foodTagsString.length>0){
+          foodTagsString=foodTagsString.substring(0,foodTagsString.length-1)
+        }
+        formData.append('menu_id',id)
+        formData.append('jamiat_id',jamiatId)
+        formData.append('family_id',"4")
+        formData.append('user_id',user_id)
+        formData.append('food_taste',value+"")
+        formData.append('food_quantity',quantityRating+"")
+        formData.append('food_quality',overall_quality+"")
+        formData.append('others',foodTagsString)
+        images.map((image,index)=>{
+          formData.append('image[]',{
+            uri: image.uri,
+            type: image.type,
+            name: image.fileName,
+          })
+        })
+        formData.append('date',getTodayDate())
+        formData.append('remarks',comments)
+        console.log(formData)
+        const {data:feedbackRes,status:feedbackStatus}=await client.post('/feedbacks/add',formData,{
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Accept': 'application/json'
+          },
+        })
+        if(status===200){
+          console.log(feedbackRes)
+          onsubmit()
+        }
+      }else{
+        alert("Menu not found for today")
+      }
+
+    }
+    else{
+      alert("Something went wrong")
+    }
+    } catch (error) {
+      console.log(error)
+      
+    }finally{
+      setloading(false)
+    }
+    
+  }
   const renderContent = useCallback(() => {
     return (
       <>
@@ -209,6 +293,8 @@ const Feedback = () => {
          numberOfLines={4}
          placeholder={"Write your comments here..."}
          placeholderTextColor={"black"}
+         value={comments}
+         onChangeText={(text) => setcomments(text)}
         />
         
         
@@ -325,15 +411,15 @@ const Feedback = () => {
           </View>
         <View style={{ height: 20 }} />
         <RoundedButton 
-          title="Submit Feedback" 
+          title={!loading?"Submit Feedback":"Submitting..."} 
           onPress={() => {
             // Add any submission logic here
-            onsubmit()
+            submit()
           }}
         />
       </>
     );
-  }, [value, quantityRating, foodTags,overall_quality,images]);
+  }, [value, quantityRating, foodTags,overall_quality,images,comments,loading]);
   const [isDialogBox, setisDialogBox] = useState(false);
   const onsubmit = () => {
     setisDialogBox(true)
