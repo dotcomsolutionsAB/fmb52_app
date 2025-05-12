@@ -36,6 +36,8 @@ const SinglePicker: React.FC<SinglePickerProps> = ({
       <Dropdown
         style={styles.dropdown}
         data={options}
+        containerStyle={styles.dropdownContainer}
+        placeholderStyle={styles.placeholder}
         labelField={labelField}
         valueField={valueField}
         placeholder="Select an option"
@@ -72,6 +74,12 @@ const styles = StyleSheet.create({
     gap: 10,
     paddingHorizontal: 5,
     height: 50,
+  },
+  dropdownContainer: {
+    maxHeight: 200, // Set a maximum height for the dropdown
+  },
+  placeholder: {
+    color: Colors.light.accent,
   },
 });
 

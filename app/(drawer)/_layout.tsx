@@ -1,7 +1,12 @@
 import client from "@/connection/client";
 import { Colors } from "@/constants/Colors";
 import { signout } from "@/store/reducer/user";
-import { Feather, Ionicons, MaterialCommunityIcons,FontAwesome5 } from "@expo/vector-icons";
+import {
+  Feather,
+  Ionicons,
+  MaterialCommunityIcons,
+  FontAwesome5,
+} from "@expo/vector-icons";
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
@@ -68,6 +73,7 @@ export default function () {
             ),
           }}
         />
+        {/* Feedback menu item commented out as requested
         <Drawer.Screen
           name="feedback" // This is the name of the page and must match the url from root
           options={{
@@ -76,6 +82,7 @@ export default function () {
             drawerIcon: (props) => <Feather name="edit" {...props} />,
           }}
         />
+        */}
         <Drawer.Screen
           name="receipts" // This is the name of the page and must match the url from root
           options={{
@@ -86,7 +93,7 @@ export default function () {
             ),
           }}
         />
-        <Drawer.Screen
+        {/* <Drawer.Screen
           name="pause-thaali" // This is the name of the page and must match the url from root
           options={{
             drawerLabel: "Start & Stop Thaali",
@@ -95,21 +102,19 @@ export default function () {
               <Ionicons name="pause-circle-outline" {...props} />
             ),
           }}
-        />
+        /> */}
         <Drawer.Screen
           name="edit_profile" // This is the name of the page and must match the url from root
           options={{
             drawerLabel: "Edit Profile",
             title: "Edit Profile",
-            drawerIcon: (props) => (
-              <Feather name="edit" {...props} />
-            ),
+            drawerIcon: (props) => <Feather name="edit" {...props} />,
           }}
         />
 
         {/* Admin Screens start from here */}
 
-        <Drawer.Screen
+        {/* <Drawer.Screen
           name="mumeneen"
           options={{
             drawerLabel: "Mumeneen",
@@ -196,7 +201,7 @@ export default function () {
               <MaterialCommunityIcons name="dome-light" {...props} />
             ),
           }}
-        />
+        /> */}
       </Drawer>
     </GestureHandlerRootView>
   );
@@ -270,18 +275,18 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         />
       </View>
 
-      {/* Render the first 3 items */}
+      {/* Render the first 5 items (was 6 before feedback was commented out) */}
       {state.routes
-        .slice(0, 7)
+        .slice(0, 5)
         .map((route, index) => renderDrawerItem(route, index))}
 
-      {user.role === "jamiat_admin" && <SeparatorAdmin />}
+      {/* {user.role === "jamiat_admin" && <SeparatorAdmin />} */}
 
       {/* Render the remaining items */}
-      {user.role === "jamiat_admin" &&
+      {/* {user.role === "jamiat_admin" &&
         state.routes
-          .slice(7)
-          .map((route, index) => renderDrawerItem(route, index + 7))}
+          .slice(6)
+          .map((route, index) => renderDrawerItem(route, index + 7))} */}
 
       <DrawerItem
         onPress={() =>

@@ -1,68 +1,117 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  TouchableOpacity,
+  RefreshControl,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import ThemedBackground from "@/components/ThemedBackground";
 import NotificationCard, {
   Notification,
 } from "@/components/cards/NotificationCard";
+import client from "@/connection/client";
+import { useSelector } from "react-redux";
+import { Colors } from "@/constants/Colors";
 
 const Notifications = () => {
-  const sampleNotifications: Notification[] = [
-    {
-      id: "1",
-      Title: "App Update Available",
-      Dated: "/Date(1713196800000)/", // April 16, 2024
-      Description:
-        "We have released a new version of our app with improved performance and exciting new features. Update now to enjoy a better experience!",
-      Image_Url: "https://picsum.photos/id/236/800/400",
-      Button_Text: "Update Now",
-      Button_Url: "https://example.com/update",
-    },
-    {
-      id: "2",
-      Title: "Holiday Schedule",
-      Dated: "/Date(1713283200000)/", // April 17, 2024
-      Description:
-        "Please note that our support team will be unavailable during the upcoming holiday on April 25. For any urgent matters, please email emergency@example.com. Regular support hours will resume on April 26. We appreciate your understanding and wish you a pleasant holiday!",
-      Button_Text: "View Calendar",
-      Button_Url: "https://example.com/calendar",
-    },
-    {
-      id: "3",
-      Title: "Congratulations!",
-      Dated: "/Date(1713369600000)/", // April 18, 2024
-      Description:
-        "You have completed all the challenges for this month. Keep up the good work!",
-      Image_Url: "https://picsum.photos/id/1/800/400",
-    },
-    {
-      id: "4",
-      Title: "System Maintenance",
-      Dated: "/Date(1713456000000)/", // April 19, 2024
-      Description:
-        "Our system will undergo scheduled maintenance from 2:00 AM to 5:00 AM EST on April 23. During this time, the app may be temporarily unavailable. We apologize for any inconvenience this may cause and thank you for your patience as we work to improve our services.",
-      Button_Text: "Learn More",
-      Button_Url: "https://example.com/maintenance",
-    },
-    {
-      id: "5",
-      Title: "New Feature: Dark Mode",
-      Dated: "/Date(1713542400000)/", // April 20, 2024
-      Description:
-        "We've added dark mode to our app! You can now toggle between light and dark themes in your profile settings. This feature helps reduce eye strain during nighttime usage and conserves battery life on devices with OLED screens.",
-      Image_Url: "https://picsum.photos/id/1010/800/400",
-      Button_Text: "Try Dark Mode",
-      Button_Url: "https://example.com/darkmode",
-    },
-  ];
+  const [notifications, setNotifications] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const token = useSelector((state: any) => state.user.token);
+
+  const getNotifications = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const { data: res, status } = await client.get(
+        "/notifications/view-all",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (status === 200) {
+        setNotifications(res.data);
+      } else {
+        setError("Server error. Please try again later.");
+      }
+    } catch (err: any) {
+      setError(err.message || "An error occurred while fetching data");
+      console.error("Notification fetch error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getNotifications();
+  }, []);
 
   return (
     <ThemedBackground>
-      <FlatList
-        data={sampleNotifications}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <NotificationCard notification={item} />}
-        contentContainerStyle={styles.listContent}
-      />
+      {loading ? (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <ActivityIndicator size="large" color={Colors.light.accent} />
+          <Text style={{ marginTop: 10, color: Colors.light.accent }}>
+            Loading notifications...
+          </Text>
+        </View>
+      ) : error ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 20,
+          }}
+        >
+          <Text style={{ color: "red", textAlign: "center", marginBottom: 15 }}>
+            {error}
+          </Text>
+          <TouchableOpacity
+            style={{
+              backgroundColor: Colors.light.accent,
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+              borderRadius: 5,
+            }}
+            onPress={getNotifications}
+          >
+            <Text style={{ color: "#fff", fontWeight: "bold" }}>Retry</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <FlatList
+          data={notifications || []}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => <NotificationCard notification={item} />}
+          contentContainerStyle={styles.listContent}
+          style={{ width: "100%" }} // Added to ensure full width
+          refreshControl={
+            <RefreshControl
+              refreshing={loading}
+              onRefresh={getNotifications}
+              colors={[Colors.light.accent]}
+            />
+          }
+          ListEmptyComponent={
+            <View style={{ padding: 20, alignItems: "center" }}>
+              <Text style={{ color: Colors.light.grey }}>
+                No notifications found
+              </Text>
+            </View>
+          }
+        />
+      )}
     </ThemedBackground>
   );
 };
@@ -73,5 +122,6 @@ const styles = StyleSheet.create({
   listContent: {
     paddingTop: 12,
     paddingBottom: 20,
+    paddingHorizontal: 0,
   },
 });

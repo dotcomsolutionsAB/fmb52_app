@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "178742161989",
+    "project_id": "fmb-52",
+    "storage_bucket": "fmb-52.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178742161989:android:f31ef837f6c02d8347e92c",
+        "android_client_info": {
+          "package_name": "com.dotcom.fmb52"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQcuXX5XRIiyRMb6Ky8llHWbdBVzAc99k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
