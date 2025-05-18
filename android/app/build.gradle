@@ -101,6 +101,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('fmb52.keystore')
+            storePassword 'Batul@2403'
+            keyAlias 'fmb52'
+            keyPassword 'Batul@2403'
+        }
     }
     buildTypes {
         debug {
