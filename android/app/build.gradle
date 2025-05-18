@@ -148,7 +148,7 @@ android {
 
 // Removed duplicate plugins block as it's already applied at the top
 // The Google Services plugin is applied via 'apply plugin' statement below
-apply plugin: 'com.google.gms.google-services'
+// apply plugin: 'com.google.gms.google-services'
 
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
@@ -157,7 +157,7 @@ dependencies {
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
     def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true";
     def isWebpAnimatedEnabled = (findProperty('expo.webp.animated') ?: "") == "true";
-    implementation platform('com.google.firebase:firebase-bom:33.13.0')
+    // implementation platform('com.google.firebase:firebase-bom:33.13.0')
 
     if (isGifEnabled) {
         // For animated gif support
@@ -174,7 +174,7 @@ dependencies {
     }
 
     // Firebase dependencies
-    implementation 'com.google.firebase:firebase-analytics'
+    // implementation 'com.google.firebase:firebase-analytics'
     // implementation 'com.google.firebase:firebase-messaging'
     
     // Add any other desired Firebase products here

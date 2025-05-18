@@ -1,5 +1,23 @@
 pluginManagement {
     includeBuild(new File(["node", "--print", "require.resolve('@react-native/gradle-plugin/package.json')"].execute(null, rootDir).text.trim()).getParentFile().toString())
+    // resolutionStrategy {
+    //     eachPlugin {
+    //         if (requested.id.namespace == 'org.jetbrains.kotlin') {
+    //             // Apply specific Kotlin versions based on module paths
+    //             if (project.path == ':expo-modules-core') {
+    //                 useVersion '1.7.20'  // For Compose compatibility
+    //             } else if (project.path == ':play-services-measurement-api' || 
+    //                        project.path == ':play-services-measurement-impl') {
+    //                 useVersion '2.1.0'  // For Google Play Services libraries
+    //             } else if (project.path == ':app') {
+    //                 useVersion '1.8.10'  // Main app module
+    //             } else {
+    //                 // Default Kotlin version for other modules
+    //                 useVersion '1.8.0'
+    //             }
+    //         }
+    //     }
+    // }
 }
 plugins { id("com.facebook.react.settings") }
 
@@ -36,3 +54,4 @@ useExpoModules()
 
 include ':app'
 includeBuild(new File(["node", "--print", "require.resolve('@react-native/gradle-plugin/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim()).getParentFile())
+
