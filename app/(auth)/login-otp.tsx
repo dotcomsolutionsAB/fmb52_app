@@ -20,7 +20,7 @@ import { useDispatch } from "react-redux";
 
 const OTP_LENGTH = 6;
 export default function () {
-  const { username } = useLocalSearchParams();
+  const { ITS } = useLocalSearchParams();
   const [error, setError] = useState("");
 
   const [doResendCode, setDoResendCode] = useState(false);
@@ -33,7 +33,7 @@ export default function () {
     setDoResendCode(false);
     try {
       const { data, status } = await client.post("/get_otp", {
-        username,
+        username: ITS,
       });
       if (status === 404 || status === 500) {
         Alert.alert("Error", data.message);
@@ -49,7 +49,7 @@ export default function () {
     try {
       setError("");
       const { data } = await client.post(`/login/${otp}`, {
-        username,
+        username: ITS,
       });
       if (data.success === false) {
         setError(data.message);
@@ -107,7 +107,7 @@ export default function () {
               <LineError message={error} />
             ) : (
               <Text style={{ color: Colors.light.accent }}>
-                Enter the 6 digit code sent we've sent to {username}
+                Enter the 6 digit code sent we've sent to {ITS}
               </Text>
             )}
           </View>
