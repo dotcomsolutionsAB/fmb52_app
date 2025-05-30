@@ -221,6 +221,7 @@ const signOutUser = () => {
   
   // Navigate to the dedicated logout screen
   setTimeout(() => {
+    dispatch(signout()); // Clear user state
     router.replace('/(auth)/logout');
   }, 100);
 };
