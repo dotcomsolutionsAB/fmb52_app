@@ -12,7 +12,7 @@ import { Drawer } from "expo-router/drawer";
 import { StyleSheet, Image, View, Text, Alert } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
-
+import { CommonActions } from '@react-navigation/native';
 export default function () {
   //   useEffect(() => {
   //     setTimeout(() => {
@@ -207,15 +207,17 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
 
   const dispatch = useDispatch();
 
-  const signOutUser = async () => {
-    try {
-      // await client.post("/logout", {});
-      dispatch(signout());
-      router.replace("/(auth)/login");
-    } catch (err) {
-      console.log(err);
-    }
-  };
+// Navigate to a dedicated logout screen that handles the process safely
+const signOutUser = () => {
+  // Close the drawer first
+  navigation.closeDrawer();
+  
+  // Navigate to the dedicated logout screen
+  setTimeout(() => {
+    dispatch(signout()); // Clear user state
+    router.replace('/(auth)/logout');
+  }, 100);
+};
 
   // Manually render the Drawer items
   const renderDrawerItem = (route: any, index: number) => {
@@ -282,12 +284,18 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
           .map((route, index) => renderDrawerItem(route, index + 7))} */}
 
       <DrawerItem
-        onPress={() =>
-          Alert.alert("Logout", "Are you sure you want to logout?", [
-            { text: "Yes", onPress: signOutUser },
-            { text: "No" },
-          ])
-        }
+        onPress={() => {
+          // Close the drawer first before showing the alert
+          navigation.closeDrawer();
+          
+          // Wait for drawer animation to complete
+          setTimeout(() => {
+            Alert.alert("Logout", "Are you sure you want to logout?", [
+              { text: "Yes", onPress: signOutUser },
+              { text: "No" },
+            ]);
+          }, 100);
+        }}
         label="Logout"
         icon={(props) => <MaterialCommunityIcons name="logout" {...props} />}
         inactiveTintColor={Colors.light.white}

@@ -10,7 +10,7 @@ export const userSlice = createSlice({
       return action.payload;
     },
     signout: (state) => {
-      return initialState;
+      return null;
     },
   },
 });

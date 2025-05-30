@@ -305,14 +305,14 @@ const Dashboard = () => {
         />
       ),
     },
-    {
-      key: 3,
-      title: "Feedback",
-      route: "/(drawer)/feedback",
-      icon: (
-        <MaterialIcons name="feedback" size={35} color={Colors.light.accent} />
-      ),
-    },
+    // {
+    //   key: 3,
+    //   title: "Feedback",
+    //   route: "/(drawer)/feedback",
+    //   icon: (
+    //     <MaterialIcons name="feedback" size={35} color={Colors.light.accent} />
+    //   ),
+    // },
     {
       key: 4,
       title: "Edit Profile",
@@ -333,14 +333,14 @@ const Dashboard = () => {
         />
       ),
     },
-    {
-      key: 6,
-      title: "Payments",
-      route: "/(drawer)/payments",
-      icon: (
-        <MaterialIcons name="payment" size={35} color={Colors.light.accent} />
-      ),
-    },
+    // {
+    //   key: 6,
+    //   title: "Payments",
+    //   route: "/(drawer)/payments",
+    //   icon: (
+    //     <MaterialIcons name="payment" size={35} color={Colors.light.accent} />
+    //   ),
+    // },
   ];
 
   // Format today's menu for display
