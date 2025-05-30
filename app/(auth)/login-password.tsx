@@ -17,21 +17,23 @@ import LineError from "@/components/text/LineError";
 import { signin } from "@/store/reducer/user";
 import { useDispatch } from "react-redux";
 
-export default function () {
+export default function LoginPassword() {
   const params = useLocalSearchParams();
-  const [username, setUsername] = useState(params.username || "");
+  const [ITS, setITS] = useState(
+    Array.isArray(params.ITS) ? params.ITS[0] || "" : params.ITS || ""
+  );
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const dispatch = useDispatch();
 
   const login = async () => {
-    if (password.length === 0 || username.length === 0) {
-      setError("Username or Password cannot be empty");
+    if (password.length === 0 || ITS.length === 0) {
+      setError("ITS or Password cannot be empty");
       return;
     }
     try {
       const { data } = await client.post("/login", {
-        username,
+        username: ITS,
         password,
       });
       if (data.success === false) {
@@ -53,21 +55,23 @@ export default function () {
             flex: 1,
             justifyContent: "center",
             alignItems: "center",
+            marginTop: 50,
+            marginBottom: 20,
           }}
         >
           <Image
             source={require("@/assets/images/icon.png")}
-            style={{ width: 150, height: 150 }}
+            style={{ width: 280, height: 280 }}
           />
         </View>
 
-        <View style={{ flex: 2, justifyContent: "space-evenly" }}>
+        <View style={{ flex: 2, gap: 40 }}>
           <View style={{ gap: 20 }}>
             <TextInputLight
-              title="Username"
-              placeholder="Enter Username"
-              value={username}
-              onChangeText={(txt) => setUsername(txt)}
+              title="ITS"
+              placeholder="Enter ITS"
+              value={ITS}
+              onChangeText={(txt) => setITS(txt)}
               onChange={() => error && setError("")}
             />
             <TextInputLight

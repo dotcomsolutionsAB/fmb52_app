@@ -17,7 +17,7 @@ import ThemedBackground from "@/components/ThemedBackground";
 import UserDashboardCard from "@/components/cards/UserDashboardCard";
 import Carousel, { Pagination } from "react-native-reanimated-carousel";
 import MasoolCard from "@/components/cards/MasoolCard";
-import ThaaliCard from "@/components/cards/ThaaliCard";
+import MenuCard from "@/components/cards/MenuCard";
 import ReceiptCard from "@/components/cards/ReceiptCard";
 import QuickAccessCard from "@/components/cards/QuickAccessCard";
 import RoundedButton from "@/components/buttons/RoundedButton";
@@ -37,6 +37,7 @@ import {
 import { Slider } from "@miblanchard/react-native-slider";
 import { launchImageLibrary } from "react-native-image-picker";
 import { router } from "expo-router";
+import MenuDashboardCard from "@/components/cards/MenuDashboardCard";
 const { width } = Dimensions.get("window");
 const BANNER_WIDTH = width;
 const BANNER_HEIGHT = 120;
@@ -451,7 +452,6 @@ const Dashboard = () => {
       !quantityRating ||
       !tasteRating ||
       !overallQualityRating ||
-      !comments ||
       comments.trim().length === 0
     ) {
       alert("Please fill all the required fields");
@@ -607,7 +607,7 @@ const Dashboard = () => {
     <ThemedBackground>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}
         refreshControl={
           <RefreshControl
             refreshing={loading}
@@ -657,11 +657,9 @@ const Dashboard = () => {
           masool_name={dashboardData?.hub?.masool || "Not Available"}
         />
 
-        {/* Thaali Card */}
+        {/* Menu Card */}
         <View style={{ width: "100%", paddingHorizontal: 15 }}>
-          <ThaaliCard
-            thaali_size={thaali_size}
-            onThaaliSizeChange={onThaaliSizeChange}
+          <MenuDashboardCard
             menu={formatTodayMenu()}
             english_date={
               formatEnglishDate(dashboardData?.menu?.[0]?.date) || "N/A"
@@ -680,7 +678,7 @@ const Dashboard = () => {
               backgroundColor: Colors.light.accent,
               paddingVertical: 12,
               borderRadius: 8,
-              marginTop: 10,
+              marginVertical: 10,
               alignItems: "center",
               flexDirection: "row",
               justifyContent: "center",
@@ -709,6 +707,35 @@ const Dashboard = () => {
             subsector={dashboardData?.hub?.subsector_name || "N/A"}
           />
 
+          {/* Quick Access Section */}
+          <Text
+            style={{
+              color: "grey",
+              fontSize: 16,
+              fontWeight: "bold",
+              marginBottom: 10,
+            }}
+          >
+            Quick Access
+          </Text>
+          <FlatList
+            data={routes}
+            numColumns={3}
+            keyExtractor={(item) => item.key.toString()}
+            scrollEnabled={false}
+            contentContainerStyle={styles.quickAccessContainer}
+            columnWrapperStyle={styles.quickAccessColumnWrapper}
+            renderItem={({ item }) => (
+              <View style={styles.quickAccessItem}>
+                <QuickAccessCard
+                  icon={item.icon}
+                  name={item.title}
+                  route={item.route}
+                />
+              </View>
+            )}
+          />
+
           {/* Recent Receipts Section */}
           <View style={{ paddingVertical: 15 }}>
             <View
@@ -735,12 +762,7 @@ const Dashboard = () => {
               dashboardData.receipts.slice(0, 4).map((receipt, index) => (
                 <ReceiptCard
                   key={receipt.id}
-                  receipt_no={receipt.receipt_no}
-                  date={receipt.date}
-                  name={receipt.name}
-                  amount={receipt.amount}
-                  mode={receipt.mode}
-                  status={receipt.status}
+                  receipt={receipt}
                   sector={dashboardData?.hub?.sector_name || "N/A"}
                   subsector={dashboardData?.hub?.subsector_name || "N/A"}
                   innerCardStyle={{ gap: 0 }}
@@ -782,35 +804,6 @@ const Dashboard = () => {
               </Text>
             </TouchableOpacity>
           </View>
-
-          {/* Quick Access Section */}
-          <Text
-            style={{
-              color: "grey",
-              fontSize: 16,
-              fontWeight: "bold",
-              marginBottom: 10,
-            }}
-          >
-            Quick Access
-          </Text>
-          <FlatList
-            data={routes}
-            numColumns={3}
-            keyExtractor={(item) => item.key.toString()}
-            scrollEnabled={false}
-            contentContainerStyle={styles.quickAccessContainer}
-            columnWrapperStyle={styles.quickAccessColumnWrapper}
-            renderItem={({ item }) => (
-              <View style={styles.quickAccessItem}>
-                <QuickAccessCard
-                  icon={item.icon}
-                  name={item.title}
-                  route={item.route}
-                />
-              </View>
-            )}
-          />
         </View>
       </ScrollView>
 
@@ -937,11 +930,10 @@ const styles = StyleSheet.create({
   },
   quickAccessContainer: {
     flexDirection: "column",
-    paddingBottom: 15,
   },
   quickAccessColumnWrapper: {
     justifyContent: "space-between",
-    marginBottom: 10,
+    marginBottom: 15,
   },
   quickAccessItem: {
     width: CARD_WIDTH,

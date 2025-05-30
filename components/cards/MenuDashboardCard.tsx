@@ -3,21 +3,23 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import CustomSwitch from "../buttons/CustomSwitch";
 import { Link } from "expo-router";
 
-interface MenuCardProps {
+interface MenuDashboardCardProps {
   english_date: string;
   arabic_date: string;
   rsv_end_time: string;
   menu: string;
+  salwat_chitti: string;
   day: string;
 }
 
-export default function MenuCard({
+export default function MenuDashboardCard({
   english_date,
   arabic_date,
   rsv_end_time,
   menu,
+  salwat_chitti,
   day,
-}: MenuCardProps) {
+}: MenuDashboardCardProps) {
   const [taking_thaali, settaking_thaali] = useState("Yes");
   const onTakingThaaliChange = () => {
     if (taking_thaali === "Yes") {
@@ -40,17 +42,17 @@ export default function MenuCard({
         style={{
           width: "100%",
           padding: 10,
-          backgroundColor: "#E8EAEA",
-          borderTopRightRadius: 15,
-          borderTopLeftRadius: 15,
+          borderRadius: 15,
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
+          borderColor: "#CBA652",
+          borderWidth: 1,
         }}
       >
         <View
           style={{
-            backgroundColor: "white",
+            backgroundColor: "#E8EAEA",
             borderRadius: 10,
             borderColor: "#CBA652",
             borderWidth: 1,
@@ -92,6 +94,7 @@ export default function MenuCard({
                 fontWeight: "bold",
                 color: "white",
                 textAlign: "center",
+                paddingVertical: 3,
               }}
             >
               {day}
@@ -106,45 +109,35 @@ export default function MenuCard({
             padding: 15,
           }}
         >
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-            <Text style={{ fontSize: 15, fontWeight: "600", color: "black" }}>
-              Taking Thaali
+          <View>
+            <Text
+              style={{
+                fontSize: 17,
+                fontWeight: "600",
+                color: "#CBA652",
+                paddingLeft: 10,
+              }}
+            >
+              {menu}
             </Text>
-            <CustomSwitch
-              label1="No"
-              label2="Yes"
-              onChange={onTakingThaaliChange}
-              value={taking_thaali}
-            />
           </View>
-          <Text style={{ fontSize: 15, fontWeight: "600", color: "black" }}>
-            RSV Ends Tomorrow at {rsv_end_time}
-          </Text>
-        </View>
-      </View>
-      <View style={{ height: 80, width: "100%", paddingHorizontal: 8 }}>
-        <Text
-          style={{
-            fontSize: 17,
-            fontWeight: "600",
-            color: "#CBA652",
-            padding: 10,
-          }}
-        >
-          {menu}
-        </Text>
-        <View
-          style={{
-            width: "100%",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
           <TouchableOpacity
-            style={{ flexDirection: "row", alignItems: "center", gap: 2 }}
+            activeOpacity={0.6}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 2,
+              paddingLeft: 10,
+            }}
           >
-            <Text style={{ fontSize: 13, fontWeight: "600", color: "black" }}>
+            <Text
+              style={{
+                fontSize: 13,
+                fontWeight: "600",
+                color: "black",
+                textDecorationLine: "underline",
+              }}
+            >
               Salwaat Chitti
             </Text>
             <Image
@@ -152,20 +145,6 @@ export default function MenuCard({
               style={{ height: 20, width: 20 }}
             />
           </TouchableOpacity>
-          <Link href={"/(drawer)/dashboard"}>
-            <Text
-              style={{
-                fontSize: 13,
-                fontWeight: "600",
-                color: "#1976D2",
-                textDecorationColor: "#1976D2",
-                textDecorationStyle: "solid",
-                textDecorationLine: "underline",
-              }}
-            >
-              Read more
-            </Text>
-          </Link>
         </View>
       </View>
     </View>

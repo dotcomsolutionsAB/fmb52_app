@@ -1,10 +1,20 @@
 import { Colors } from "@/constants/Colors";
 import { router } from "expo-router";
-import React from "react";
+import React, { ReactNode } from "react";
 import { Text, TouchableWithoutFeedback, StyleSheet } from "react-native";
 import { View } from "react-native";
 
-export default function QuickAccessCard({ route, name, icon }) {
+interface QuickAccessCardProps {
+  route: Parameters<typeof router.push>[0];
+  name: string;
+  icon: ReactNode;
+}
+
+export default function QuickAccessCard({
+  route,
+  name,
+  icon,
+}: QuickAccessCardProps) {
   return (
     <TouchableWithoutFeedback
       onPress={() => {

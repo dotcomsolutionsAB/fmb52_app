@@ -1,21 +1,14 @@
 import client from "@/connection/client";
 import { Colors } from "@/constants/Colors";
 import { signout } from "@/store/reducer/user";
-import {
-  Feather,
-  Ionicons,
-  MaterialCommunityIcons,
-  FontAwesome5,
-} from "@expo/vector-icons";
+import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
   DrawerItem,
-  DrawerItemList,
 } from "@react-navigation/drawer";
 import { router } from "expo-router";
 import { Drawer } from "expo-router/drawer";
-import { Children } from "react";
 import { StyleSheet, Image, View, Text, Alert } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
@@ -269,8 +262,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         }}
       >
         <Image
-          source={require("@/assets/images/faiz.png")}
-          style={{ width: 200 }}
+          source={require("@/assets/images/drawer-icon.png")}
+          style={{ height: 140 }}
           resizeMode="contain"
         />
       </View>

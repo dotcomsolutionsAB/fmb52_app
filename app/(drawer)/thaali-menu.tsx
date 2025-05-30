@@ -8,11 +8,11 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import ThemedBackground from "@/components/ThemedBackground";
-import MenuCard from "@/components/cards/MenuCard";
 import MenuHeader from "@/components/headers/MenuHeader";
 import client from "@/connection/client";
 import { useSelector } from "react-redux";
-import ThaaliCard from "@/components/cards/ThaaliCard";
+import MenuCard from "@/components/cards/MenuCard";
+import MenuDashboardCard from "@/components/cards/MenuDashboardCard";
 
 interface MenuItemType {
   date: string;
@@ -178,14 +178,12 @@ const Thaali = () => {
     const formattedItem = formatMenuData(item);
     return (
       <View style={{ width: "100%", paddingHorizontal: 10 }}>
-        <ThaaliCard
+        <MenuDashboardCard
           menu={formattedItem.menu}
           english_date={formattedItem.date}
           arabic_date={formatHijriDate(item.hijri_date)}
           day={formattedItem.day}
           rsv_end_time={"8:00 PM"}
-          thaali_size={taking_thaali}
-          onThaaliSizeChange={onTakingThaaliChange}
           salwat_chitti={"None"}
         />
       </View>
@@ -207,14 +205,8 @@ const Thaali = () => {
           data={weeklyMenu}
           renderItem={renderItem}
           keyExtractor={(item) => item.date}
-          contentContainerStyle={{ flexGrow: 1, gap: 15, paddingBottom: 20 }}
+          contentContainerStyle={{ flexGrow: 1, gap: 15, paddingVertical: 20 }}
           showsHorizontalScrollIndicator={false}
-          ListHeaderComponent={
-            <MenuHeader
-              name={"Shk Abbas bhai Saifuddin bhai Jamali"}
-              role={"Distribution Area - Sub Incharge"}
-            />
-          }
           ListEmptyComponent={
             <Text style={styles.emptyText}>
               {!loading && "No menu available for this week"}

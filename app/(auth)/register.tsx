@@ -31,7 +31,7 @@ const OTP_LENGTH = 6;
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-export default function () {
+export default function Register() {
   const [verificationStage, setVerificationStage] = useState(
     verificationStages["NOT_STARTED"]
   );
@@ -122,7 +122,7 @@ export default function () {
     <ThemedBackground>
       <ScrollView
         style={{ flex: 1, alignSelf: "stretch" }}
-        contentContainerStyle={{ padding: 10, gap: 15 }}
+        contentContainerStyle={{ padding: 10, paddingBottom: 50 }}
         showsVerticalScrollIndicator={false}
       >
         <View
@@ -130,12 +130,11 @@ export default function () {
             flex: 1,
             justifyContent: "center",
             alignItems: "center",
-            marginTop: 35,
           }}
         >
           <Image
             source={require("@/assets/images/icon.png")}
-            style={{ width: 150, height: 150 }}
+            style={{ width: 280, height: 280 }}
           />
         </View>
         {verificationStage === verificationStages["REGISTERED"] ? (

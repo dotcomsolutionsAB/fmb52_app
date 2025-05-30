@@ -7,18 +7,18 @@ import { Colors } from "@/constants/Colors";
 import { router } from "expo-router";
 import LineError from "@/components/text/LineError";
 
-export default function () {
-  const [username, setUsername] = useState("");
+export default function Login() {
+  const [ITS, setITS] = useState("");
   const [error, setError] = useState("");
 
   const routeToLogin = (route: string = "") => {
-    if (username.length === 0) {
-      setError("Username cannot be empty");
+    if (ITS.length === 0) {
+      setError("ITS cannot be empty");
       return;
     }
     router.navigate({
       pathname: route,
-      params: { username },
+      params: { ITS },
     });
   };
 
@@ -28,23 +28,24 @@ export default function () {
         <View
           style={{
             flex: 1,
-            justifyContent: "center",
+            justifyContent: "flex-start",
             alignItems: "center",
+            marginTop: 50,
           }}
         >
           <Image
             source={require("@/assets/images/icon.png")}
-            style={{ width: 150, height: 150 }}
+            style={{ width: 280, height: 280 }}
           />
         </View>
 
-        <View style={{ flex: 2, gap: 10, justifyContent: "space-around" }}>
-          <View style={{ gap: 10 }}>
+        <View style={{ flex: 2, gap: 10 }}>
+          <View style={{ marginBottom: 50, marginTop: 30 }}>
             <TextInputLight
-              title="Username"
-              placeholder="Enter Username"
-              value={username}
-              onChangeText={(txt) => setUsername(txt)}
+              title="ITS"
+              placeholder="Enter ITS"
+              value={ITS}
+              onChangeText={(txt) => setITS(txt)}
               onChange={() => error && setError("")}
             />
             {error ? <LineError message={error} /> : null}

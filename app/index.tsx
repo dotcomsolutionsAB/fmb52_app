@@ -17,14 +17,20 @@ export default function Index() {
 
   return (
     <ThemedBackground>
-      <View style={{ flex: 1, justifyContent: "space-evenly" }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 70,
+        }}
+      >
         <View
           style={{
             alignItems: "center",
-            gap: 40,
           }}
         >
-          <Image source={logo} style={{ width: 200, height: 200 }} />
+          <Image source={logo} style={{ width: 300, height: 300 }} />
           {/* <Text style={styles.welcomeText}>Welcome To FMB 52</Text> */}
         </View>
         <RoundedButton

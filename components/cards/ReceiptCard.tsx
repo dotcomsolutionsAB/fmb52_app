@@ -32,18 +32,33 @@ interface ReceiptProps {
   payment_id: string | null;
 }
 
-
-export default function ReceiptCard({ receipt,fontSize,innerCardStyle,customStyle,buttonStyle,sector,subsector }: { receipt: ReceiptProps,fontSize:number,innerCardStyle:StyleSheet,customStyle:StyleSheet ,buttonStyle:StyleSheet, sector: string, subsector: string }) {
+export default function ReceiptCard({
+  receipt,
+  fontSize,
+  innerCardStyle,
+  customStyle,
+  buttonStyle,
+  sector,
+  subsector,
+}: {
+  receipt: ReceiptProps;
+  fontSize: number;
+  innerCardStyle: StyleSheet;
+  customStyle: StyleSheet;
+  buttonStyle: StyleSheet;
+  sector: string;
+  subsector: string;
+}) {
   // Format date from YYYY-MM-DD to DD/MM/YYYY
   const formatDate = (dateString: string) => {
     if (!dateString) return "";
     const [year, month, day] = dateString.split("-");
     return `${day}/${month}/${year}`;
   };
-   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
       minimumFractionDigits: 0,
     }).format(amount);
   };
@@ -68,27 +83,27 @@ export default function ReceiptCard({ receipt,fontSize,innerCardStyle,customStyl
 
   return (
     <View style={styles.container}>
-      <View style={[styles.contentContainer,customStyle]}>
+      <View style={[styles.contentContainer, customStyle]}>
         <View style={styles.profileContainer}>
           <Image
             source={require("@/assets/images/profile.png")}
             style={{ borderRadius: 5 }}
           />
         </View>
-        <View style={[styles.detailsContainer,innerCardStyle]}>
-          <Text style={[styles.nameText,{fontSize}]}>{receipt?.name}</Text>
+        <View style={[styles.detailsContainer, innerCardStyle]}>
+          <Text style={[styles.nameText, { fontSize }]}>{receipt?.name}</Text>
           <View style={styles.infoRow}>
             <View style={styles.leftColumn}>
-              <Text style={styles.subImpText}>
-               {(receipt?.its)}
+              <Text style={styles.subImpText}>{receipt?.its}</Text>
+              <Text style={styles.subImpText}>{formatDate(receipt?.date)}</Text>
+              <Text style={styles.amountText}>
+                {formatCurrency(receipt?.amount)}
               </Text>
-              <Text style={styles.subImpText}>
-               {formatDate(receipt?.date)}
-              </Text>
-              <Text style={styles.amountText}>{formatCurrency(receipt?.amount)}</Text>
             </View>
             <View style={styles.rightColumn}>
-              <Text style={styles.subImpText}>{`Sector ${sector}-${subsector}`}</Text>
+              <Text
+                style={styles.subImpText}
+              >{`Sector ${sector}-${subsector}`}</Text>
               <Text style={styles.modeText}>
                 {receipt?.mode.charAt(0).toUpperCase() + receipt?.mode.slice(1)}
               </Text>
@@ -96,7 +111,7 @@ export default function ReceiptCard({ receipt,fontSize,innerCardStyle,customStyl
           </View>
         </View>
       </View>
-      <TouchableOpacity style={[styles.downloadButton,buttonStyle]}>
+      <TouchableOpacity style={[styles.downloadButton, buttonStyle]}>
         <Ionicons
           name="download-outline"
           size={24}

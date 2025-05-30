@@ -1,9 +1,9 @@
 import { ImageBackground, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { ReactNode } from "react";
 
 const backgroundImage = require("@/assets/images/background.png");
 
-const ThemedBackground = ({ children }) => {
+const ThemedBackground = ({ children }: { children: ReactNode }) => {
   return (
     <ImageBackground source={backgroundImage} style={styles.container}>
       {children}

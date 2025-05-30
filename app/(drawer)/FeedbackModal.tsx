@@ -233,6 +233,13 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
               "Quantity of Food"
             )}
 
+            {/* Overall Quality */}
+            {renderSlider(
+              overallQualityRating,
+              setOverallQualityRating,
+              "Overall Quality of Food"
+            )}
+
             {/* Food Tags */}
             <View style={styles.tagsContainer}>
               <Text style={styles.tagsTitle}>Food was (optional):</Text>
@@ -282,13 +289,6 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 ))}
               </View>
             </View>
-
-            {/* Overall Quality */}
-            {renderSlider(
-              overallQualityRating,
-              setOverallQualityRating,
-              "Overall Quality of Food"
-            )}
 
             {/* Comments */}
             <TextInput
@@ -456,25 +456,24 @@ const styles = StyleSheet.create({
   },
   feedbackSliderContainer: {
     width: "100%",
-    paddingHorizontal: 5,
+    paddingHorizontal: 10,
   },
   sliderThumbLabel: {
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
     borderRadius: 12.5,
     backgroundColor: "#CBA652",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 10,
+    marginBottom: -5,
   },
   sliderThumbText: {
     textAlign: "center",
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: "bold",
     color: "#FFFFFF",
   },
   tagsContainer: {
-    marginTop: 15,
     marginBottom: 15,
   },
   tagsTitle: {
