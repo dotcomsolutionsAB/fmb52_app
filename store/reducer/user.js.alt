@@ -1,0 +1,29 @@
+// Add this to your user.js reducer file
+
+// Import router from expo-router in your reducer
+import { router } from 'expo-router';
+
+// In your signout action creator or thunk
+export const signout = () => (dispatch) => {
+  // First navigate away before clearing the state
+  try {
+    router.replace('/(auth)');
+    
+    // Then after a short delay, clear the state
+    setTimeout(() => {
+      dispatch({
+        type: 'SIGN_OUT'
+      });
+    }, 300);
+  } catch (err) {
+    console.error('Navigation error during signout:', err);
+    
+    // If navigation fails, still try to clear the state
+    dispatch({
+      type: 'SIGN_OUT'
+    });
+  }
+};
+
+// This approach moves the navigation logic into the Redux action
+// so the entire logout process is handled in one place

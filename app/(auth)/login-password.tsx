@@ -38,6 +38,7 @@ export default function () {
         setError(data.message);
         return;
       }
+      console.log("login details", data);
       dispatch(signin(data.data));
       router.replace("/(drawer)/dashboard");
     } catch (err) {

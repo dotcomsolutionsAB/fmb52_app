@@ -218,6 +218,7 @@ const Dashboard = () => {
   const getData = async () => {
     setLoading(true);
     setError(null);
+    console.log("Family ID:", familyId);
     try {
       const { data: res, status } = await client.post(
         "/dashboard",
@@ -236,6 +237,7 @@ const Dashboard = () => {
       if (status === 200) {
         if (res.status === true) {
           setDashboardData(res.data);
+          console.log("Dashboard data loaded successfully:", res.data.receipts);
         } else {
           setError(res.message || "Failed to load dashboard data");
         }
@@ -304,14 +306,14 @@ const Dashboard = () => {
         />
       ),
     },
-    {
-      key: 3,
-      title: "Feedback",
-      route: "/(drawer)/feedback",
-      icon: (
-        <MaterialIcons name="feedback" size={35} color={Colors.light.accent} />
-      ),
-    },
+    // {
+    //   key: 3,
+    //   title: "Feedback",
+    //   route: "/(drawer)/feedback",
+    //   icon: (
+    //     <MaterialIcons name="feedback" size={35} color={Colors.light.accent} />
+    //   ),
+    // },
     {
       key: 4,
       title: "Edit Profile",
@@ -332,14 +334,14 @@ const Dashboard = () => {
         />
       ),
     },
-    {
-      key: 6,
-      title: "Payments",
-      route: "/(drawer)/payments",
-      icon: (
-        <MaterialIcons name="payment" size={35} color={Colors.light.accent} />
-      ),
-    },
+    // {
+    //   key: 6,
+    //   title: "Payments",
+    //   route: "/(drawer)/payments",
+    //   icon: (
+    //     <MaterialIcons name="payment" size={35} color={Colors.light.accent} />
+    //   ),
+    // },
   ];
 
   // Format today's menu for display
@@ -735,6 +737,7 @@ const Dashboard = () => {
               dashboardData.receipts.slice(0, 4).map((receipt, index) => (
                 <ReceiptCard
                   key={receipt.id}
+                  receipt={receipt}
                   receipt_no={receipt.receipt_no}
                   date={receipt.date}
                   name={receipt.name}
