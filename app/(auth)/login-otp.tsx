@@ -91,10 +91,11 @@ export default function LoginOTP() {
             flex: 1,
             justifyContent: "center",
             alignItems: "center",
+            marginTop: 20,
           }}
         >
           <Image
-            source={require("@/assets/images/icon.png")}
+            source={require("@/assets/images/icon-no-bg.png")}
             style={{ width: 280, height: 280 }}
           />
         </View>
@@ -135,7 +136,6 @@ export default function LoginOTP() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-evenly",
     alignSelf: "stretch",
     padding: 20,
   },

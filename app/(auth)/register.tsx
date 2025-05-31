@@ -133,7 +133,7 @@ export default function Register() {
           }}
         >
           <Image
-            source={require("@/assets/images/icon.png")}
+            source={require("@/assets/images/icon-no-bg.png")}
             style={{ width: 280, height: 280 }}
           />
         </View>

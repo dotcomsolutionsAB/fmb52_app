@@ -197,13 +197,6 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
           },
         ]}
       >
-        <View style={styles.feedbackModalHeader}>
-          <Text style={styles.feedbackModalTitle}>Give Thaali Feedback</Text>
-          <TouchableOpacity onPress={handleClose}>
-            <Ionicons name="close" size={24} color="black" />
-          </TouchableOpacity>
-        </View>
-
         {feedbackSuccess ? (
           <View style={styles.successContainer}>
             <Feather name="check-circle" color="#1AB864" size={70} />
@@ -215,8 +208,16 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
         ) : (
           <ScrollView
             showsVerticalScrollIndicator={true}
-            contentContainerStyle={{ paddingBottom: 20 }}
+            contentContainerStyle={{ padding: 20, paddingBottom: 10 }}
           >
+            <View style={styles.feedbackModalHeader}>
+              <Text style={styles.feedbackModalTitle}>
+                Give Thaali Feedback
+              </Text>
+              <TouchableOpacity onPress={handleClose}>
+                <Ionicons name="close" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
             <Text style={styles.introText}>
               Maula TUS ni Kushi Mubarak em che ke Mumin Jaman acha ma achu
               jamey, Maula TUS ni kushi mubarak ne nazar ma rakhta huwa aap si
@@ -420,7 +421,6 @@ const styles = StyleSheet.create({
     maxHeight: height * 0.9,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 20,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
@@ -456,7 +456,7 @@ const styles = StyleSheet.create({
   },
   feedbackSliderContainer: {
     width: "100%",
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
   },
   sliderThumbLabel: {
     width: 20,

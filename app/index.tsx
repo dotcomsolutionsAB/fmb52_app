@@ -5,7 +5,8 @@ import { Colors } from "@/constants/Colors";
 import { router, useFocusEffect } from "expo-router";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-const logo = require("@/assets/images/icon.png");
+
+const logo = require("@/assets/images/icon-no-bg.png");
 
 export default function Index() {
   const user = useSelector((state: any) => state.user);
