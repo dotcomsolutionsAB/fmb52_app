@@ -9,6 +9,7 @@ interface MenuCardProps {
   rsv_end_time: string;
   menu: string;
   day: string;
+  niaz_by?: string;
 }
 
 export default function MenuCard({
@@ -17,6 +18,7 @@ export default function MenuCard({
   rsv_end_time,
   menu,
   day,
+  niaz_by,
 }: MenuCardProps) {
   const [taking_thaali, settaking_thaali] = useState("Yes");
   const onTakingThaaliChange = () => {

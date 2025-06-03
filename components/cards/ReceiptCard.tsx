@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Linking,
+} from "react-native";
 import React from "react";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
@@ -30,6 +37,7 @@ interface ReceiptProps {
   log_user: string;
   attachment: string | null;
   payment_id: string | null;
+  hashed_id: string | null;
 }
 
 export default function ReceiptCard({
@@ -43,9 +51,9 @@ export default function ReceiptCard({
 }: {
   receipt: ReceiptProps;
   fontSize: number;
-  innerCardStyle: StyleSheet;
-  customStyle: StyleSheet;
-  buttonStyle: StyleSheet;
+  innerCardStyle: any;
+  customStyle: any;
+  buttonStyle: any;
   sector: string;
   subsector: string;
 }) {
@@ -81,6 +89,12 @@ export default function ReceiptCard({
     return `Sector ${receipt?.sector_id}-${receipt?.sub_sector_id}`;
   };
 
+  const downloadReceipt = () => {
+    Linking.openURL(
+      `https://api.fmb52.com/api/receipt_print/${receipt.hashed_id} `
+    );
+  };
+
   return (
     <View style={styles.container}>
       <View style={[styles.contentContainer, customStyle]}>
@@ -111,7 +125,11 @@ export default function ReceiptCard({
           </View>
         </View>
       </View>
-      <TouchableOpacity style={[styles.downloadButton, buttonStyle]}>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={downloadReceipt}
+        style={[styles.downloadButton, buttonStyle]}
+      >
         <Ionicons
           name="download-outline"
           size={24}

@@ -30,7 +30,7 @@ interface FormattedMenuItemType {
   date: string;
   arabicDate: string;
   menu: string;
-  rsvEndsTime: string;
+  niaz_by?: string;
 }
 
 const Thaali = () => {
@@ -115,7 +115,7 @@ const Thaali = () => {
       date: formattedDate,
       arabicDate: arabicDate,
       menu: menuText,
-      rsvEndsTime: rsvEndsTime,
+      niaz_by: item.niaz_by || undefined,
     };
   };
   const formatHijriDate = (dateString: string | undefined): string => {
@@ -183,8 +183,7 @@ const Thaali = () => {
           english_date={formattedItem.date}
           arabic_date={formatHijriDate(item.hijri_date)}
           day={formattedItem.day}
-          rsv_end_time={"8:00 PM"}
-          salwat_chitti={"None"}
+          niaz_by={item.niaz_by}
         />
       </View>
 

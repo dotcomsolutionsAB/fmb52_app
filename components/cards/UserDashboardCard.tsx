@@ -3,6 +3,7 @@ import React from "react";
 
 interface UserDashboardCardProps {
   name: string;
+  photo?: string;
   sector: string;
   subsector: string;
   hub: string;
@@ -10,6 +11,7 @@ interface UserDashboardCardProps {
 }
 const UserDashboardCard: React.FC<UserDashboardCardProps> = ({
   name,
+  photo,
   sector,
   subsector,
   hub,
@@ -18,7 +20,20 @@ const UserDashboardCard: React.FC<UserDashboardCardProps> = ({
   return (
     <View style={styles.container}>
       <View style={{ gap: 10 }}>
-        <Image source={require("@/assets/images/profile.png")} />
+        {photo ? (
+          <Image
+            source={{ uri: photo }}
+            style={{
+              height: 100,
+              width: 90,
+              resizeMode: "contain",
+              borderRadius: 10,
+            }}
+          />
+        ) : (
+          <Image source={require("@/assets/images/profile.png")} />
+        )}
+
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
@@ -50,7 +65,7 @@ const UserDashboardCard: React.FC<UserDashboardCardProps> = ({
         </Text>
         <View
           style={{
-            flex: 1,
+            marginTop: 7,
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-between",

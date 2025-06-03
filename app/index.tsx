@@ -6,6 +6,8 @@ import { router, useFocusEffect } from "expo-router";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 
+// prev expo version - // ~52.0.11
+
 const logo = require("@/assets/images/icon-no-bg.png");
 
 export default function Index() {

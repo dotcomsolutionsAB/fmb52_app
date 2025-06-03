@@ -7,6 +7,8 @@ import {
   TextInput,
   ActivityIndicator,
   Alert,
+  Touchable,
+  TouchableOpacity,
 } from "react-native";
 import React, { useCallback, useState, useEffect } from "react";
 import ThemedBackground from "@/components/ThemedBackground";
@@ -116,7 +118,6 @@ const EditProfile = () => {
   const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
-  const [prefix, setPrefix] = useState("");
 
   // Profile data and loading states
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
@@ -147,7 +148,6 @@ const EditProfile = () => {
 
         // Update form fields with fetched data
         setName(data.name || "");
-        setPrefix(data.title || "");
         setMobile(data.mobile || "");
         setEmail(data.email || "");
         setAddress(data.building || "");
@@ -172,7 +172,6 @@ const EditProfile = () => {
         `/mumeneen/update_details/${userId}`,
         {
           name,
-          // title: prefix,
           mobile,
           building: address,
         },
@@ -284,17 +283,6 @@ const EditProfile = () => {
         {/* Form inputs */}
         <View style={{ flex: 1, gap: 15 }}>
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Prefix</Text>
-            <TextInput
-              value={prefix}
-              onChangeText={(text) => setPrefix(text)}
-              style={styles.input}
-              placeholder="Prefix"
-              placeholderTextColor={primary}
-            />
-          </View>
-
-          <View style={styles.inputContainer}>
             <Text style={styles.label}>Name</Text>
             <TextInput
               value={name}
@@ -352,19 +340,24 @@ const EditProfile = () => {
 
           {error && <Text style={styles.formErrorText}>{error}</Text>}
         </View>
+
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={{ marginTop: 20, alignItems: "center" }}
+        >
+          <Text
+            style={{
+              color: "maroon",
+              fontSize: 13,
+              textDecorationLine: "underline",
+            }}
+          >
+            Delete Account
+          </Text>
+        </TouchableOpacity>
       </View>
     );
-  }, [
-    prefix,
-    name,
-    mobile,
-    email,
-    address,
-    profileData,
-    loading,
-    error,
-    updating,
-  ]);
+  }, [name, mobile, email, address, profileData, loading, error, updating]);
 
   // Helper functions for sector/subsector names
   const getSectorName = (sectorId: number): string => {

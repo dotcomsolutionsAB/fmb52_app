@@ -70,9 +70,14 @@ interface Menu {
   day_name: string;
   menu: string;
   addons: string;
+  niaz_by?: string;
 }
 
 interface DashboardData {
+  user_details: {
+    name: string;
+    photo?: string;
+  };
   receipts: Receipt[];
   hub: Hub;
   menu: Menu[];
@@ -668,8 +673,7 @@ const Dashboard = () => {
               formatHijriDate(dashboardData?.menu?.[0]?.hijri_date) || "N/A"
             }
             day={dashboardData?.menu?.[0]?.day_name || "N/A"}
-            rsv_end_time={"8:00 PM"}
-            salwat_chitti={""}
+            niaz_by={dashboardData?.menu?.[0]?.niaz_by}
           />
 
           {/* Thaali Feedback Button */}
@@ -692,7 +696,7 @@ const Dashboard = () => {
               style={{ marginRight: 8 }}
             />
             <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
-              Give Thaali Feedback
+              Give Thaali Feedbacks
             </Text>
           </TouchableOpacity>
         </View>
@@ -700,7 +704,8 @@ const Dashboard = () => {
         <View style={{ width: "100%", paddingHorizontal: 15, marginTop: 15 }}>
           {/* User Dashboard Card with Hub data */}
           <UserDashboardCard
-            name={dashboardData?.hub?.masool || "Not Available"}
+            name={dashboardData?.user_details?.name || "N/A"}
+            photo={dashboardData?.user_details?.photo}
             sector={dashboardData?.hub?.sector_name || "N/A"}
             hub={formatCurrency(dashboardData?.hub?.hub_amount)}
             paid={formatCurrency(dashboardData?.hub?.paid_amount) || "N/A"}

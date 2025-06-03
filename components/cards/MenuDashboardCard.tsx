@@ -6,19 +6,17 @@ import { Link } from "expo-router";
 interface MenuDashboardCardProps {
   english_date: string;
   arabic_date: string;
-  rsv_end_time: string;
   menu: string;
-  salwat_chitti: string;
   day: string;
+  niaz_by?: string;
 }
 
 export default function MenuDashboardCard({
   english_date,
   arabic_date,
-  rsv_end_time,
   menu,
-  salwat_chitti,
   day,
+  niaz_by,
 }: MenuDashboardCardProps) {
   const [taking_thaali, settaking_thaali] = useState("Yes");
   const onTakingThaaliChange = () => {
@@ -105,7 +103,7 @@ export default function MenuDashboardCard({
           style={{
             flex: 1,
             justifyContent: "flex-start",
-            gap: 10,
+            gap: 5,
             padding: 15,
           }}
         >
@@ -130,20 +128,17 @@ export default function MenuDashboardCard({
               paddingLeft: 10,
             }}
           >
-            <Text
-              style={{
-                fontSize: 13,
-                fontWeight: "600",
-                color: "black",
-                textDecorationLine: "underline",
-              }}
-            >
-              Salwaat Chitti
-            </Text>
-            <Image
-              source={require("@/assets/images/attachment.png")}
-              style={{ height: 20, width: 20 }}
-            />
+            {niaz_by && (
+              <Text
+                style={{
+                  fontSize: 13,
+                  fontWeight: "600",
+                  color: "gray",
+                }}
+              >
+                Niyaz By: {niaz_by}
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
       </View>

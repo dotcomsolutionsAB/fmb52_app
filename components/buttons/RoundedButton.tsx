@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 1,
     borderColor: Colors.light.accent,
+    marginTop: 15,
   },
   text: {
     color: Colors.light.white,
