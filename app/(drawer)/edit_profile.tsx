@@ -9,6 +9,7 @@ import {
   Alert,
   Touchable,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import React, { useCallback, useState, useEffect } from "react";
 import ThemedBackground from "@/components/ThemedBackground";
@@ -125,6 +126,10 @@ const EditProfile = () => {
   const [updating, setUpdating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Delete account modal states
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
   // Fetch profile data
   const fetchProfileData = async () => {
     setLoading(true);
@@ -208,6 +213,18 @@ const EditProfile = () => {
     } finally {
       setUpdating(false);
     }
+  };
+
+  // Handle delete account confirmation
+  const handleDeleteAccount = () => {
+    setShowDeleteModal(false);
+    setShowConfirmationModal(true);
+  };
+
+  // Close all modals
+  const closeModals = () => {
+    setShowDeleteModal(false);
+    setShowConfirmationModal(false);
   };
 
   // Load profile data on component mount
@@ -344,6 +361,7 @@ const EditProfile = () => {
         <TouchableOpacity
           activeOpacity={0.8}
           style={{ marginTop: 20, alignItems: "center" }}
+          onPress={() => setShowDeleteModal(true)}
         >
           <Text
             style={{
@@ -397,6 +415,63 @@ const EditProfile = () => {
           {renderContent()}
         </ScrollView>
       </View>
+
+      {/* Delete Account Confirmation Modal */}
+      <Modal
+        visible={showDeleteModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={closeModals}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>Delete Account</Text>
+            <Text style={styles.modalMessage}>
+              Are you sure you want to delete your account?
+            </Text>
+            <View style={styles.modalButtonContainer}>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.cancelButton]}
+                onPress={closeModals}
+              >
+                <Text style={styles.cancelButtonText}>No</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.confirmButton]}
+                onPress={handleDeleteAccount}
+              >
+                <Text style={styles.confirmButtonText}>Yes</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Delete Account Success Modal */}
+      <Modal
+        visible={showConfirmationModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={closeModals}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>Request Received</Text>
+            <Text style={styles.modalMessage}>
+              We have received your request for deletion, it will be processed
+              shortly.
+            </Text>
+            <TouchableOpacity
+              style={[styles.confirmButton, { borderRadius: 8 }]}
+              onPress={closeModals}
+            >
+              <Text style={[styles.confirmButtonText, { paddingVertical: 12 }]}>
+                OK
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </ThemedBackground>
   );
 };
@@ -488,5 +563,75 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    backgroundColor: "white",
+    borderRadius: 15,
+    padding: 25,
+    margin: 20,
+    maxWidth: 350,
+    width: "90%",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: primary,
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  modalMessage: {
+    fontSize: 16,
+    color: "#333",
+    textAlign: "center",
+    marginBottom: 25,
+    lineHeight: 22,
+  },
+  modalButtonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    gap: 15,
+  },
+  modalButton: {
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  cancelButton: {
+    backgroundColor: "#f0f0f0",
+    borderWidth: 1,
+    borderColor: "#ddd",
+  },
+  confirmButton: {
+    backgroundColor: primary,
+  },
+  cancelButtonText: {
+    color: "#666",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  confirmButtonText: {
+    alignItems: "center",
+    paddingHorizontal: 20,
+    color: "white",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });

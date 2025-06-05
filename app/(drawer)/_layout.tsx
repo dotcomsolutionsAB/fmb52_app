@@ -251,62 +251,78 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
   };
 
   return (
-    <DrawerContentScrollView {...props} showsVerticalScrollIndicator={false}>
-      <View
-        style={{
-          alignItems: "center",
-          marginBottom: 15,
-          borderRadius: 10,
-          backgroundColor: Colors.light.primary,
-          paddingHorizontal: 10,
-          paddingVertical: 10,
-        }}
-      >
-        <Image
-          source={require("@/assets/images/drawer-icon.png")}
-          style={{ height: 140 }}
-          resizeMode="contain"
-        />
-      </View>
+    <DrawerContentScrollView
+      {...props}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{
+        justifyContent: "space-between",
+        height: "100%",
+      }}
+    >
+      <View>
+        <View
+          style={{
+            alignItems: "center",
+            marginBottom: 15,
+            borderRadius: 10,
+            backgroundColor: Colors.light.primary,
+            paddingHorizontal: 10,
+            paddingVertical: 10,
+          }}
+        >
+          <Image
+            source={require("@/assets/images/drawer-icon.png")}
+            style={{ height: 140 }}
+            resizeMode="contain"
+          />
+        </View>
 
-      {/* Render the first 5 items (was 6 before feedback was commented out) */}
-      {state.routes
-        .slice(0, 5)
-        .map((route, index) => renderDrawerItem(route, index))}
+        {/* Render the first 5 items (was 6 before feedback was commented out) */}
+        {state.routes
+          .slice(0, 5)
+          .map((route, index) => renderDrawerItem(route, index))}
 
-      {/* {user.role === "jamiat_admin" && <SeparatorAdmin />} */}
+        {/* {user.role === "jamiat_admin" && <SeparatorAdmin />} */}
 
-      {/* Render the remaining items */}
-      {/* {user.role === "jamiat_admin" &&
+        {/* Render the remaining items */}
+        {/* {user.role === "jamiat_admin" &&
         state.routes
           .slice(6)
           .map((route, index) => renderDrawerItem(route, index + 7))} */}
 
-      <DrawerItem
-        onPress={() => {
-          // Close the drawer first before showing the alert
-          navigation.closeDrawer();
+        <DrawerItem
+          onPress={() => {
+            // Close the drawer first before showing the alert
+            navigation.closeDrawer();
 
-          // Wait for drawer animation to complete
-          setTimeout(() => {
-            Alert.alert("Logout", "Are you sure you want to logout?", [
-              { text: "Yes", onPress: signOutUser },
-              { text: "No" },
-            ]);
-          }, 100);
-        }}
-        label="Logout"
-        icon={(props) => <MaterialCommunityIcons name="logout" {...props} />}
-        inactiveTintColor={Colors.light.white}
-        labelStyle={styles.drawerLabelStyle}
-      />
-
-      <View style={{ marginTop: 20, alignItems: "center", gap: 5 }}>
-        <Text style={styles.accessiblityText}>Version : 1.1</Text>
-        <Text style={styles.accessiblityText}>Proudly Powered By</Text>
-        <Text style={[styles.accessiblityText, { fontWeight: "bold" }]}>
-          Dot Com Solutions
-        </Text>
+            // Wait for drawer animation to complete
+            setTimeout(() => {
+              Alert.alert("Logout", "Are you sure you want to logout?", [
+                { text: "Yes", onPress: signOutUser },
+                { text: "No" },
+              ]);
+            }, 100);
+          }}
+          label="Logout"
+          icon={(props) => <MaterialCommunityIcons name="logout" {...props} />}
+          inactiveTintColor={Colors.light.white}
+          labelStyle={styles.drawerLabelStyle}
+        />
+      </View>
+      <View>
+        <View
+          style={{
+            marginTop: 20,
+            alignItems: "center",
+            gap: 5,
+          }}
+        >
+          <Text style={styles.accessiblityText}>v 1.0</Text>
+          <Text style={styles.accessiblityText}>Proudly Powered By</Text>
+          <Text style={[styles.accessiblityText, { fontWeight: "bold" }]}>
+            Dot Com Solutions
+          </Text>
+        </View>
       </View>
     </DrawerContentScrollView>
   );

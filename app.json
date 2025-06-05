@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "FMB 52",
-    "slug": "FMB 52",
+    "slug": "FMB-52",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -40,6 +40,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c5566eb9-b5fc-4f06-a6da-500ad7c62ad5"
+      }
     }
   }
 }
